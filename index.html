@@ -122,7 +122,7 @@ html,body{height:100%;font-family:var(--font);background:var(--sand);color:var(-
 
 /* ── STAGE 3: HOW IT WORKS ──────────────── */
 .how-stage{padding:36px 24px;flex-direction:column;align-items:center}
-.flow-wrap{max-width:760px;width:100%;margin-bottom:32px}
+.flow-wrap{width:100%;margin-bottom:32px;display:flex;justify-content:center}
 .flow-diagram{
   background:var(--snow);border:1px solid var(--hazel);
   border-radius:16px;padding:32px 24px;
@@ -131,10 +131,11 @@ html,body{height:100%;font-family:var(--font);background:var(--sand);color:var(-
 }
 .flow-row{display:flex;align-items:center;gap:12px;justify-content:center}
 .flow-node{
-  padding:10px 18px;border-radius:10px;text-align:center;
+  padding:12px 18px;border-radius:10px;text-align:center;
   font-size:0.8125rem;font-weight:600;line-height:1.3;
   border:1.5px solid var(--hazel);background:var(--bone);color:var(--esp);
-  min-width:120px;
+  min-width:140px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
 }
 .flow-node small{display:block;font-size:0.6875rem;font-weight:400;color:var(--char);margin-top:2px}
 .flow-node.ai{background:var(--esp);color:white;border-color:var(--esp)}
@@ -147,8 +148,26 @@ html,body{height:100%;font-family:var(--font);background:var(--sand);color:var(-
 .callout-card h4{font-size:0.875rem;font-weight:700;color:var(--esp);margin-bottom:10px;display:flex;align-items:center;gap:7px}
 .callout-card h4 i{color:var(--tan)}
 .callout-card p,.callout-list{font-size:0.8125rem;color:var(--cocoa);line-height:1.6}
-.callout-list{list-style:none;display:flex;flex-direction:column;gap:4px}
+.callout-list{list-style:none;display:flex;flex-direction:column;gap:6px}
+.callout-list li{font-size:0.8125rem;color:var(--cocoa);line-height:1.5}
 .callout-list li::before{content:"·  ";color:var(--tan);font-weight:700}
+.callout-note{font-size:0.75rem;color:var(--char);margin-top:10px;padding-top:8px;border-top:1px solid var(--hazel);font-style:italic}
+.callout-slots{display:flex;flex-direction:column;gap:5px}
+.cslot{display:flex;align-items:center;gap:8px}
+.cslot-q{font-size:.7rem;font-weight:700;background:var(--tan);color:white;border-radius:4px;padding:1px 6px;flex-shrink:0}
+.cslot-t{font-size:.8rem;color:var(--esp)}
+.callout-layers{display:flex;flex-direction:column;gap:10px}
+.clayer{display:flex;flex-direction:column;gap:4px}
+.clayer-lbl{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--char)}
+.clayer-name{font-size:.8rem;font-weight:600;color:var(--esp)}
+.clayer-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:2px}
+.ctag{font-size:.65rem;font-weight:600;padding:2px 7px;border-radius:4px;border:1px solid}
+.ctag.filled{background:#edf5dc;border-color:var(--olive);color:var(--forest)}
+.ctag.partial{background:#fff8e1;border-color:#d4a800;color:#7a5f00}
+.ctag.empty{background:var(--sand);border-color:var(--hazel);color:var(--char)}
+.ctag.neg{background:#fde8ec;border-color:#c04060;color:#7a1030}
+.ctag.s5{background:#201B13;border-color:#201B13;color:white}
+.ctag.s4{background:var(--bone);border-color:var(--hazel);color:var(--esp)}
 
 /* ── STAGE 4: DEMO ───────────────────────── */
 #stage-4{height:calc(100vh - 60px - 52px);overflow:hidden;flex-direction:column}
@@ -195,20 +214,29 @@ html,body{height:100%;font-family:var(--font);background:var(--sand);color:var(-
   letter-spacing:.07em;color:#b0a898;flex-shrink:0;
 }
 .bts-content-wrap{flex:1;overflow-y:auto;padding:12px 14px}
-.bts-content{
+.bts-content{display:flex;flex-direction:column;gap:0}
+.bts-entry{
+  padding:10px 0;border-bottom:1px solid rgba(255,255,255,.07);
+}
+.bts-entry:last-child{border-bottom:none}
+.bts-ts{
+  font-size:.6rem;color:rgba(255,255,255,.3);
+  font-family:'Courier New',monospace;margin-bottom:4px;
+}
+.bts-msg{
   font-family:'Courier New',monospace;font-size:0.72rem;
   color:#c8ffa8;line-height:1.8;white-space:pre-wrap;
   word-break:break-word;
 }
-.bts-content b{color:#fff;font-weight:700}
-.bts-content .f{color:#7dc858}
-.bts-content .p{color:#ffd166}
-.bts-content .e{color:#888}
-.bts-content .probe{color:var(--tan);font-weight:700}
-.bts-content .ok{color:#7dc858;font-weight:700}
-.bts-content .warn{color:#ffd166;font-weight:700}
-.bts-flash{animation:btsFlash .5s ease}
-@keyframes btsFlash{0%,100%{opacity:1}50%{opacity:.4}}
+.bts-msg b{color:#fff;font-weight:700}
+.bts-msg .f{color:#7dc858}
+.bts-msg .p{color:#ffd166}
+.bts-msg .e{color:#888}
+.bts-msg .probe{color:var(--tan);font-weight:700}
+.bts-msg .ok{color:#7dc858;font-weight:700}
+.bts-msg .warn{color:#ffd166;font-weight:700}
+.bts-new{animation:btsNew .4s ease}
+@keyframes btsNew{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 .bts-content-wrap::-webkit-scrollbar{width:3px}
 .bts-content-wrap::-webkit-scrollbar-track{background:transparent}
 .bts-content-wrap::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:2px}
@@ -347,6 +375,36 @@ html,body{height:100%;font-family:var(--font);background:var(--sand);color:var(-
 .sc-debug{margin-top:10px;padding-top:10px;border-top:1px dashed var(--hazel);display:none}
 .sc-debug.show{display:block}
 .sc-debug pre{background:var(--esp);color:#b0ffa0;border-radius:7px;padding:10px 12px;font-size:.68rem;line-height:1.7;white-space:pre;overflow-x:auto}
+/* Methodology accordion */
+.method-box{background:var(--snow);border:1px solid var(--hazel);border-radius:12px;margin-bottom:16px;overflow:hidden}
+.method-summary{
+  display:flex;align-items:center;gap:8px;padding:14px 18px;cursor:pointer;
+  font-size:.8125rem;font-weight:600;color:var(--esp);list-style:none;
+  user-select:none;
+}
+.method-summary::-webkit-details-marker{display:none}
+.method-summary:hover{background:var(--bone)}
+.method-chev{margin-left:auto;font-size:10px;color:var(--char);transition:transform .2s}
+details[open] .method-chev{transform:rotate(180deg)}
+.method-body{padding:0 18px 18px;border-top:1px solid var(--hazel)}
+.method-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0 12px}
+.method-col h4{font-size:.8125rem;font-weight:700;color:var(--esp);margin:8px 0 5px}
+.method-col p{font-size:.78rem;color:var(--cocoa);line-height:1.6}
+.method-prompt-badge{display:inline-block;font-size:.65rem;font-weight:700;border-radius:4px;padding:2px 8px;text-transform:uppercase;letter-spacing:.05em}
+.method-prompt-badge.a{background:var(--tan);color:white}
+.method-prompt-badge.b{background:var(--denim);color:white}
+.method-rubric{background:var(--bone);border-radius:8px;padding:12px;margin-top:8px}
+.method-rub-title{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--char);margin-bottom:8px}
+.method-rub-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:6px}
+.method-rub-row:last-child{margin-bottom:0}
+.mrub{font-size:.7rem;font-weight:700;white-space:nowrap;padding:2px 8px;border-radius:4px;min-width:100px;text-align:center}
+.mrub.s5{background:#354A0A;color:white}
+.mrub.s4{background:#587322;color:white}
+.mrub.s3{background:#FFBB00;color:#201B13}
+.mrub.s2{background:#F38454;color:#201B13}
+.mrub.s1{background:#8C152F;color:white}
+.mrub-desc{font-size:.76rem;color:var(--cocoa);line-height:1.5}
+.method-bar-note{background:#fff8e1;border:1px solid #d4a800;border-radius:8px;padding:10px 12px;margin-top:10px;font-size:.8rem;color:#5a4200;display:flex;align-items:flex-start;gap:8px;line-height:1.5}
 /* Radar */
 .radar-box{background:var(--snow);border:1px solid var(--hazel);border-radius:16px;padding:22px;margin-bottom:16px;display:flex;justify-content:center}
 /* Notes */
@@ -368,16 +426,20 @@ html,body{height:100%;font-family:var(--font);background:var(--sand);color:var(-
 .next-col{background:var(--snow);border:1px solid var(--hazel);border-radius:14px;padding:22px}
 .next-col h3{font-size:.9375rem;font-weight:700;color:var(--esp);margin-bottom:14px;display:flex;align-items:center;gap:8px}
 .next-col h3 i{color:var(--tan)}
-.next-list{list-style:none;display:flex;flex-direction:column;gap:8px}
-.next-list li{font-size:.8375rem;color:var(--cocoa);line-height:1.5;display:flex;align-items:flex-start;gap:7px}
-.next-list li::before{content:"→";color:var(--tan);font-weight:700;flex-shrink:0}
+.next-list{list-style:none;display:flex;flex-direction:column;gap:12px}
+.next-list li{font-size:.8375rem;color:var(--cocoa);line-height:1.5;display:flex;align-items:flex-start;gap:10px}
+.next-list li::before{content:"→";color:var(--tan);font-weight:700;flex-shrink:0;margin-top:1px}
+.next-list li strong{display:block;font-weight:600;color:var(--esp);font-size:.8375rem}
+.next-list li span{display:block;font-size:.76rem;color:var(--char);line-height:1.45;margin-top:1px}
+.next-list li>div,.next-list li>strong+*{display:block}
 .next-highlight{
   max-width:860px;width:100%;
-  background:var(--esp);border-radius:14px;padding:22px 28px;
-  display:flex;align-items:center;gap:20px;color:white;
+  border-radius:14px;padding:22px 28px;
+  display:flex;align-items:flex-start;gap:18px;
 }
-.next-highlight i{font-size:2rem;color:var(--tan);flex-shrink:0}
-.next-highlight p{font-size:.9rem;line-height:1.6;color:#c8b8b0}
+.next-highlight.eng{background:var(--esp);border:2px solid var(--tan)}
+.next-highlight i{font-size:1.75rem;color:var(--tan);flex-shrink:0;margin-top:2px}
+.next-highlight p{font-size:.9rem;line-height:1.65;color:#c8b8b0}
 .next-highlight strong{color:white}
 
 /* ── PRESENTER NOTES ───────────────────── */
@@ -453,16 +515,16 @@ html,body{height:100%;font-family:var(--font);background:var(--sand);color:var(-
         <span class="compare-badge">Before</span>
       </div>
       <ul class="compare-list">
-        <li><i class="fa-solid fa-minus" style="color:var(--hazel)"></i>Typeform — candidates fill a static form</li>
-        <li><i class="fa-solid fa-minus" style="color:var(--hazel)"></i>Same fixed questions for every applicant</li>
-        <li><i class="fa-solid fa-minus" style="color:var(--hazel)"></i>AI-graded using Best / Expected / Poor rubric</li>
-        <li><i class="fa-solid fa-minus" style="color:var(--hazel)"></i>No follow-ups — only surface-level answers captured</li>
-        <li><i class="fa-solid fa-minus" style="color:var(--hazel)"></i>Can't probe vague or shallow responses</li>
-        <li><i class="fa-solid fa-minus" style="color:var(--hazel)"></i>No signal on tone, motivation, or live reasoning</li>
+        <li><i class="fa-solid fa-minus" style="color:var(--hazel)"></i>Typeform — 5 question versions (V1–V5) randomized per candidate</li>
+        <li><i class="fa-solid fa-minus" style="color:var(--hazel)"></i>AI-graded: Strong Yes (5) → Strong No (1) against recruiter benchmarks</li>
+        <li><i class="fa-solid fa-minus" style="color:var(--hazel)"></i>Follow-up probes triggered if score &lt; 3.5 — but fixed, pre-written</li>
+        <li><i class="fa-solid fa-minus" style="color:var(--hazel)"></i>Probes can't adapt to what the candidate actually just said</li>
+        <li><i class="fa-solid fa-minus" style="color:var(--hazel)"></i>Signal detection and quality check exist — but applied to static text</li>
+        <li><i class="fa-solid fa-minus" style="color:var(--hazel)"></i>No conversational depth — candidates know it's a form, not an interview</li>
       </ul>
       <div class="compare-stat">
-        <span class="compare-stat-num">Static</span>
-        <span class="compare-stat-lbl">no probing — depth is missed</span>
+        <span class="compare-stat-num">Fixed</span>
+        <span class="compare-stat-lbl">probes — can't adapt to the actual answer</span>
       </div>
     </div>
     <div class="compare-card new">
@@ -472,12 +534,12 @@ html,body{height:100%;font-family:var(--font);background:var(--sand);color:var(-
         <span class="compare-badge">After</span>
       </div>
       <ul class="compare-list">
-        <li><i class="fa-duotone fa-comment-dots"></i>Conversational chat — feels like a real interview</li>
-        <li><i class="fa-duotone fa-magnifying-glass"></i>Dynamic follow-ups — probes when signals are missing</li>
-        <li><i class="fa-duotone fa-robot"></i>AI scores automatically using a calibrated rubric</li>
-        <li><i class="fa-duotone fa-equals"></i>Same rubric every time — zero recruiter inconsistency</li>
-        <li><i class="fa-duotone fa-gauge-high"></i>18 signal fields checked per candidate</li>
-        <li><i class="fa-duotone fa-chart-line"></i>93% calibration accuracy vs. recruiter benchmarks</li>
+        <li><i class="fa-duotone fa-comment-dots"></i>Conversational chat — candidate doesn't know it's an assessment</li>
+        <li><i class="fa-duotone fa-magnifying-glass"></i>AI generates probes based on what the candidate just said</li>
+        <li><i class="fa-duotone fa-layer-group"></i>18 signal fields checked per answer — per candidate response</li>
+        <li><i class="fa-duotone fa-robot"></i>Same rubric every time — human-benchmarked, not rule-based</li>
+        <li><i class="fa-duotone fa-gauge-high"></i>Probes target specific empty fields — not pre-written scripts</li>
+        <li><i class="fa-duotone fa-chart-line"></i>93% alignment with recruiter benchmarks in calibration testing</li>
       </ul>
       <div class="compare-stat">
         <span class="compare-stat-num">~0s</span>
@@ -518,26 +580,47 @@ html,body{height:100%;font-family:var(--font);background:var(--sand);color:var(-
   </div>
   <div class="how-callouts">
     <div class="callout-card">
-      <h4><i class="fa-duotone fa-sparkles"></i> 6 Traits Assessed</h4>
-      <ul class="callout-list">
-        <li>Commitment</li><li>Self Awareness</li><li>Learning Agility</li>
-        <li>Intelligence</li><li>Conscientiousness</li><li>Agency</li>
-      </ul>
+      <h4><i class="fa-duotone fa-sparkles"></i> 5+5 Question Model</h4>
+      <div class="callout-slots">
+        <div class="cslot"><span class="cslot-q">Q1</span><span class="cslot-t">Commitment + Self Awareness</span></div>
+        <div class="cslot"><span class="cslot-q">Q2</span><span class="cslot-t">Learning Agility</span></div>
+        <div class="cslot"><span class="cslot-q">Q3</span><span class="cslot-t">Intelligence</span></div>
+        <div class="cslot"><span class="cslot-q">Q4</span><span class="cslot-t">Conscientiousness + Self Awareness</span></div>
+        <div class="cslot"><span class="cslot-q">Q5</span><span class="cslot-t">Agency</span></div>
+      </div>
+      <p class="callout-note">+ up to 5 triggered probes if any score &lt; 3.5</p>
     </div>
     <div class="callout-card">
       <h4><i class="fa-duotone fa-layer-group"></i> Two-Layer Scoring</h4>
-      <ul class="callout-list">
-        <li>Layer 1: Is the information present?<br><span style="color:var(--char);font-size:.7rem">Filled / Partial / Empty / Negative</span></li>
-        <li>Layer 2: How good is it?<br><span style="color:var(--char);font-size:.7rem">Score 5 quality vs Score 4 quality</span></li>
-      </ul>
+      <div class="callout-layers">
+        <div class="clayer">
+          <span class="clayer-lbl">Layer 1</span>
+          <span class="clayer-name">Field State Check</span>
+          <div class="clayer-tags">
+            <span class="ctag filled">Filled</span>
+            <span class="ctag partial">Partial</span>
+            <span class="ctag empty">Empty</span>
+            <span class="ctag neg">Negative</span>
+          </div>
+        </div>
+        <div class="clayer">
+          <span class="clayer-lbl">Layer 2</span>
+          <span class="clayer-name">Quality Descriptor</span>
+          <div class="clayer-tags">
+            <span class="ctag s5">Score 5 quality</span>
+            <span class="ctag s4">Score 4 quality</span>
+          </div>
+        </div>
+      </div>
+      <p class="callout-note">Final score = field states × quality level per trait</p>
     </div>
     <div class="callout-card">
-      <h4><i class="fa-duotone fa-magnifying-glass"></i> Smart Probing</h4>
+      <h4><i class="fa-duotone fa-magnifying-glass"></i> Dynamic Probing</h4>
       <ul class="callout-list">
         <li>18 signal fields checked per answer</li>
-        <li>Empty fields trigger targeted follow-ups</li>
-        <li>Max 2 probes per trait</li>
-        <li>Non-leading — candidate never knows what's assessed</li>
+        <li>Probes target specific <em>empty</em> fields — not pre-written scripts</li>
+        <li>Max 2 probes per trait (4 for dual-trait slots)</li>
+        <li>Non-leading — candidate never knows what's being assessed</li>
       </ul>
     </div>
   </div>
@@ -581,7 +664,7 @@ html,body{height:100%;font-family:var(--font);background:var(--sand);color:var(-
       <div class="bts-inner">
         <div class="bts-head"><i class="fa-duotone fa-magnifying-glass" style="margin-right:5px"></i> Behind the Scenes</div>
         <div class="bts-content-wrap" id="bts-content-wrap">
-          <div class="bts-content" id="bts-content">Waiting to start…</div>
+          <div class="bts-content" id="bts-content"></div>
         </div>
       </div>
     </div>
@@ -614,6 +697,50 @@ html,body{height:100%;font-family:var(--font);background:var(--sand);color:var(-
         </div>
       </div>
     </div>
+    <!-- Scoring methodology accordion -->
+    <details class="method-box">
+      <summary class="method-summary">
+        <i class="fa-duotone fa-code" style="color:var(--denim)"></i>
+        <span>How This Was Scored — Prompt Engineering</span>
+        <i class="fa-solid fa-chevron-down method-chev"></i>
+      </summary>
+      <div class="method-body">
+        <div class="method-cols">
+          <div class="method-col">
+            <div class="method-prompt-badge a">Prompt A</div>
+            <h4>AI Interviewer</h4>
+            <p>Conducts the chat. Generates behavioral questions from structured templates (Q1–Q5). After each answer, runs <strong>Layer 1</strong> — checks 18 signal fields per trait and marks each as Filled, Partial, Empty, or Negative. Generates targeted probes for empty fields. Max 2 probes per trait. Candidate never knows what signals are being checked.</p>
+          </div>
+          <div class="method-col">
+            <div class="method-prompt-badge b">Prompt B</div>
+            <h4>AI Scorer</h4>
+            <p>Runs after the full transcript is complete. Applies <strong>Layer 2</strong> quality descriptors — distinguishes between a Score 5 and Score 4 fill per signal field. Combines both layers using a per-trait scoring matrix built from 100+ recruiter-benchmarked Best/Accepted/Poor samples. Outputs scores, evidence, and holistic notes.</p>
+          </div>
+        </div>
+        <div class="method-rubric">
+          <div class="method-rub-title">Scoring Scale — Calibrated Against Recruiter Benchmarks</div>
+          <div class="method-rub-row">
+            <span class="mrub s5">5 — Exceptional</span><span class="mrub-desc">All signal fields filled at Score 5 quality. Intentional, specific, goes well beyond the expected bar. Example: motivation tied to genuine career pivot, not generic interest.</span>
+          </div>
+          <div class="method-rub-row">
+            <span class="mrub s4">4 — Strong</span><span class="mrub-desc">All fields filled at Score 4 quality. Clear, honest, professional — meets the standard. Proactive and self-directed, but less intentional than a 5.</span>
+          </div>
+          <div class="method-rub-row">
+            <span class="mrub s3">3 — Adequate</span><span class="mrub-desc">Mix of filled and partially filled fields. Generic or scripted. Functional, but signals lack depth. No negative fills.</span>
+          </div>
+          <div class="method-rub-row">
+            <span class="mrub s2">2 — Weak</span><span class="mrub-desc">Mostly empty after probing. Vague, disconnected, or minimal effort. No strong evidence for the trait.</span>
+          </div>
+          <div class="method-rub-row">
+            <span class="mrub s1">1 — Poor</span><span class="mrub-desc">Negative fills present. Candidate's answer actively contradicts the trait — blaming, avoidant, or disengaged.</span>
+          </div>
+        </div>
+        <div class="method-bar-note">
+          <i class="fa-solid fa-bolt" style="color:var(--tan)"></i>
+          <strong>Fast-Track Bar: ≥4.5 average</strong> — candidates who clear this threshold are automatically offered a recruiter slot via calendar integration. All others enter the standard review queue.
+        </div>
+      </div>
+    </details>
     <div class="sec-hd">Trait Assessments</div>
     <div class="cards-grid" id="cards-grid"></div>
     <div class="radar-box"><div id="radar-container"></div></div>
@@ -634,39 +761,70 @@ html,body{height:100%;font-family:var(--font);background:var(--sand);color:var(-
 
 <!-- STAGE 6: NEXT STEPS -->
 <div class="stage next-stage" id="stage-6">
-  <h2 class="slide-title">What We Need to Go Live</h2>
-  <p class="slide-sub">Everything except API access and a production interface is already built.</p>
+  <h2 class="slide-title">What Comes Next</h2>
+  <p class="slide-sub">The concept is validated. Building it requires an HR × Engineering collaboration.</p>
   <div class="next-cols">
     <div class="next-col">
-      <h3><i class="fa-duotone fa-screwdriver-wrench"></i> Technical Setup</h3>
+      <h3><i class="fa-duotone fa-screwdriver-wrench"></i> What Needs to Be Built</h3>
       <ul class="next-list">
-        <li>Anthropic API access<br><span style="font-size:.75rem;color:var(--char)">~$5 initial credit to start</span></li>
-        <li>Web-based chat interface<br><span style="font-size:.75rem;color:var(--char)">Prototype ready in 1–2 weeks</span></li>
-        <li>Transcript storage</li>
-        <li>Scoring pipeline</li>
+        <li>
+          <strong>Web-based chat interface</strong>
+          <span>Candidate-facing UI, integrated with Anthropic API</span>
+        </li>
+        <li>
+          <strong>Scoring pipeline</strong>
+          <span>Runs Prompt B post-interview, stores transcript + scores</span>
+        </li>
+        <li>
+          <strong>People App integration</strong>
+          <span>Auto-routes ≥4.5 candidates to recruiter calendar (Calendly)</span>
+        </li>
+        <li>
+          <strong>Anthropic API access</strong>
+          <span>~$5 initial credit — ~$0.07 per candidate at scale</span>
+        </li>
       </ul>
     </div>
     <div class="next-col">
-      <h3><i class="fa-duotone fa-coin"></i> Cost</h3>
+      <h3><i class="fa-duotone fa-coin"></i> Cost Estimate</h3>
       <ul class="next-list">
-        <li>~$0.07 per candidate assessment</li>
-        <li>200+ candidates/month<br><span style="font-size:.75rem;color:var(--char)">under $15/month total</span></li>
-        <li>Compare: 15–20 min recruiter time<br><span style="font-size:.75rem;color:var(--char)">per manual screen</span></li>
+        <li>
+          <strong>~$0.07 per candidate</strong>
+          <span>Full interview + scoring, both prompts</span>
+        </li>
+        <li>
+          <strong>200+ candidates/month</strong>
+          <span>Under $15/month total API cost</span>
+        </li>
+        <li>
+          <strong>Compare: current cost</strong>
+          <span>15–20 min recruiter time × volume of applicants</span>
+        </li>
       </ul>
     </div>
     <div class="next-col">
-      <h3><i class="fa-duotone fa-calendar-check"></i> Timeline</h3>
+      <h3><i class="fa-duotone fa-calendar-check"></i> Timeline from Approval</h3>
       <ul class="next-list">
-        <li>Phase 2 calibration: 1 week</li>
-        <li>Prototype build: 1–2 weeks</li>
-        <li>Pilot with real candidates: 2 weeks</li>
-        <li>Full deployment: ~1 month<br><span style="font-size:.75rem;color:var(--char)">from approval</span></li>
+        <li>
+          <strong>Prototype build — 1–2 weeks</strong>
+          <span>HR + Engineering working together</span>
+        </li>
+        <li>
+          <strong>Pilot with real candidates — 2 weeks</strong>
+          <span>Run alongside existing Typeform process</span>
+        </li>
+        <li>
+          <strong>Full deployment — ~1 month</strong>
+          <span>PA integration, fast-track routing live</span>
+        </li>
       </ul>
     </div>
   </div>
-  <div class="next-highlight">
-    <i class="fa-duotone fa-chart-line"></i>
-    <p><strong>93% calibration accuracy</strong> against recruiter benchmarks. Zero rubric adjustments needed after testing. The scoring framework is built, calibrated, and validated — ready to move into Phase 2 calibration and production build.</p>
+  <div class="next-highlight eng">
+    <i class="fa-duotone fa-people-arrows"></i>
+    <div>
+      <p><strong>This is a concept — nothing has been built yet.</strong> The scoring framework, rubrics, and calibration are complete (93% accuracy against recruiter benchmarks). The next step is bringing Engineering on board to build the chat interface and pipeline integration together.</p>
+    </div>
   </div>
 </div>
 
@@ -841,7 +999,7 @@ function buildStepper() {
     const step = document.createElement('div');
     step.className = 'step';
     step.id = `step-${n}`;
-    step.onclick = () => { if (n <= currentStage) goToStage(n); };
+    step.onclick = () => goToStage(n);
     step.innerHTML = `<div class="step-dot">${n}</div><span class="step-label">${s.label}</span>`;
     el.appendChild(step);
     if (i < STAGES.length - 1) {
@@ -1063,10 +1221,15 @@ function toggleBTS() {
 
 function setBTS(html) {
   if (!html) return;
+  const content = document.getElementById('bts-content');
   const wrap = document.getElementById('bts-content-wrap');
-  document.getElementById('bts-content').innerHTML = html;
-  wrap.classList.remove('bts-flash'); void wrap.offsetWidth; wrap.classList.add('bts-flash');
-  requestAnimationFrame(() => { wrap.scrollTop = 0; });
+  const entry = document.createElement('div');
+  entry.className = 'bts-entry bts-new';
+  const now = new Date();
+  const ts = now.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false});
+  entry.innerHTML = `<div class="bts-ts">${ts}</div><div class="bts-msg">${html}</div>`;
+  content.appendChild(entry);
+  requestAnimationFrame(() => { wrap.scrollTop = wrap.scrollHeight; });
 }
 
 /* ─── DASHBOARD ─────────────────────────── */
