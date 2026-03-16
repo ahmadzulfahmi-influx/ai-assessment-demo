@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Influx — AI Assessment</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/e972712a89.js" crossorigin="anonymous"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --tangerine: #FF4A00;
+      --salmon:    #F38454;
+      --espresso:  #201B13;
+      --cocoa:     #4E403B;
+      --sand:      #E9E5D6;
+      --bone:      #F0F7EF;
+      --snow:      #FFFFFF;
+      --charcoal:  #55524E;
+      --mocha:     #75665F;
+      --hazelnut:  #D3C5BF;
+      --forest:    #354A0A;
+      --olive:     #587322;
+      --sunflower: #FFBB00;
+      --denim:     #547099;
+      --redwood:   #8C152F;
+      --alice:     #DCE6F5;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: var(--font);
+      background: var(--sand);
+      color: var(--espresso);
+    }
+
+    /* ─── TOP NAV ─────────────────────────────── */
+    .top-nav {
+      position: sticky; top: 0; z-index: 200;
+      height: 60px;
+      background: var(--snow);
+      border-bottom: 1px solid var(--hazelnut);
+      display: flex; align-items: center;
+      padding: 0 20px; gap: 16px;
+    }
+
+    .nav-logo {
+      display: flex; align-items: center; gap: 9px;
+      font-weight: 600; font-size: 1.0625rem;
+      color: var(--espresso); text-decoration: none;
+    }
+    .nav-logo .life-ring {
+      font-size: 22px; color: var(--tangerine);
+      line-height: 1;
+    }
+
+    .nav-tabs {
+      display: flex; gap: 3px;
+      background: var(--sand);
+      padding: 3px; border-radius: 8px;
+      margin: 0 auto;
+    }
+    .nav-tab {
+      padding: 6px 18px; border-radius: 6px;
+      font-size: 0.8125rem; font-weight: 500;
+      cursor: pointer; border: none;
+      background: transparent; color: var(--charcoal);
+      transition: all 0.2s; display: flex;
+      align-items: center; gap: 6px;
+      white-space: nowrap;
+    }
+    .nav-tab.active {
+      background: var(--snow);
+      color: var(--espresso);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+    .nav-tab.locked { opacity: 0.5; cursor: not-allowed; }
+
+    .nav-status {
+      font-size: 0.8125rem; color: var(--charcoal);
+      white-space: nowrap; transition: color 0.4s;
+    }
+    .nav-status.done { color: var(--olive); font-weight: 500; }
+
+    /* ─── CANDIDATE VIEW ─────────────────────── */
+    #view-candidate {
+      display: flex; flex-direction: column;
+      height: calc(100vh - 60px);
+      padding: 14px 14px 0;
+      gap: 12px;
+      max-width: 760px;
+      margin: 0 auto; width: 100%;
+    }
+
+    /* Progress */
+    .progress-wrap {
+      background: var(--snow);
+      border: 1px solid var(--hazelnut);
+      border-radius: 12px;
+      padding: 12px 18px;
+      display: flex; align-items: center; gap: 14px;
+      flex-shrink: 0;
+    }
+    .progress-label {
+      font-size: 0.6875rem; font-weight: 600;
+      color: var(--charcoal); text-transform: uppercase;
+      letter-spacing: 0.07em; white-space: nowrap;
+    }
+    .progress-segments {
+      flex: 1; display: flex; gap: 6px; align-items: center;
+    }
+    .progress-seg {
+      flex: 1; display: flex; flex-direction: column; gap: 4px; align-items: center;
+    }
+    .progress-seg-bar {
+      width: 100%; height: 5px; border-radius: 3px;
+      background: var(--hazelnut);
+      transition: background 0.5s ease;
+    }
+    .progress-seg-bar.active  { background: rgba(255,74,0,0.4); }
+    .progress-seg-bar.done    { background: var(--tangerine); }
+    .progress-seg-label {
+      font-size: 0.625rem; font-weight: 600;
+      color: var(--charcoal); text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .progress-seg-label.active { color: var(--tangerine); }
+    .progress-seg-label.done   { color: var(--tangerine); }
+
+    /* Chat container */
+    .chat-container {
+      flex: 1; display: flex; flex-direction: column;
+      background: var(--snow);
+      border: 1px solid var(--hazelnut);
+      border-radius: 16px 16px 0 0;
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    .chat-header {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--hazelnut);
+      display: flex; align-items: center; gap: 10px;
+      flex-shrink: 0;
+    }
+    .chat-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--tangerine); color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; flex-shrink: 0;
+    }
+    .chat-header-info { flex: 1; }
+    .chat-header-info strong {
+      display: block; font-size: 0.9375rem;
+      font-weight: 600; color: var(--espresso);
+    }
+    .chat-header-info span {
+      font-size: 0.75rem; color: var(--charcoal);
+    }
+    .online-dot {
+      width: 9px; height: 9px; border-radius: 50%;
+      background: var(--olive); flex-shrink: 0;
+    }
+
+    .chat-messages {
+      flex: 1; overflow-y: auto;
+      padding: 18px; display: flex;
+      flex-direction: column; gap: 14px;
+    }
+
+    /* Message bubbles */
+    .msg { display: flex; align-items: flex-end; gap: 8px; }
+    .msg.ai  { flex-direction: row; }
+    .msg.you { flex-direction: row-reverse; }
+
+    .msg-av {
+      width: 26px; height: 26px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 600; flex-shrink: 0;
+    }
+    .msg-av.ai  { background: var(--tangerine); color: white; }
+    .msg-av.you { background: var(--espresso);  color: white; }
+
+    .msg-bubble {
+      max-width: 73%; padding: 11px 15px;
+      border-radius: 16px; font-size: 0.9375rem;
+      line-height: 1.55; white-space: pre-wrap;
+      animation: msgIn 0.28s ease;
+    }
+    .msg.ai  .msg-bubble {
+      background: var(--bone); color: var(--espresso);
+      border-bottom-left-radius: 4px;
+    }
+    .msg.you .msg-bubble {
+      background: var(--tangerine); color: white;
+      border-bottom-right-radius: 4px;
+    }
+
+    @keyframes msgIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Typing indicator */
+    .typing-row {
+      display: flex; align-items: flex-end; gap: 8px;
+      animation: msgIn 0.2s ease;
+    }
+    .typing-bubble {
+      background: var(--bone); border-radius: 16px;
+      border-bottom-left-radius: 4px;
+      padding: 12px 16px; display: flex; gap: 4px;
+    }
+    .typing-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--mocha);
+      animation: blink 1.2s ease-in-out infinite;
+    }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes blink {
+      0%,60%,100% { opacity: 0.25; transform: scale(1); }
+      30%          { opacity: 1;    transform: scale(1.25); }
+    }
+
+    /* Input area */
+    .chat-input-area {
+      padding: 12px 16px;
+      border-top: 1px solid var(--hazelnut);
+      display: flex; gap: 10px; align-items: flex-end;
+      flex-shrink: 0;
+      background: var(--snow);
+    }
+    .chat-input {
+      flex: 1; border: 1.5px solid var(--hazelnut);
+      border-radius: 11px; padding: 11px 14px;
+      font-family: var(--font); font-size: 0.9375rem;
+      color: var(--espresso); resize: none; outline: none;
+      min-height: 46px; max-height: 110px;
+      line-height: 1.45; transition: border-color 0.2s;
+    }
+    .chat-input:focus        { border-color: var(--tangerine); }
+    .chat-input:disabled     { background: var(--sand); color: var(--mocha); cursor: not-allowed; }
+    .chat-input::placeholder { color: var(--mocha); }
+
+    .send-btn {
+      width: 46px; height: 46px; flex-shrink: 0;
+      border-radius: 11px; border: none;
+      background: var(--tangerine); color: white;
+      cursor: pointer; font-size: 15px;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .send-btn:hover:not(:disabled) { background: #e03e00; transform: scale(1.05); }
+    .send-btn:disabled { background: var(--hazelnut); cursor: not-allowed; }
+
+    /* Interview complete panel */
+    .complete-panel {
+      width: 100%; text-align: center;
+      padding: 18px; background: #EDF5DC;
+      border-radius: 12px; animation: msgIn 0.3s ease;
+    }
+    .complete-panel h3 {
+      font-size: 0.9375rem; font-weight: 600;
+      color: var(--olive); margin-bottom: 5px;
+    }
+    .complete-panel p {
+      font-size: 0.8125rem; color: var(--cocoa); margin-bottom: 14px;
+    }
+    .view-report-btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: var(--tangerine); color: white;
+      border: none; border-radius: 9px;
+      padding: 10px 22px; font-family: var(--font);
+      font-size: 0.875rem; font-weight: 600;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .view-report-btn:hover { background: #e03e00; transform: translateY(-1px); }
+
+    /* ─── RECRUITER VIEW ─────────────────────── */
+    #view-recruiter {
+      display: none;
+      max-width: 920px; margin: 0 auto;
+      padding: 24px 14px 40px;
+      width: 100%;
+    }
+
+    /* Locked state */
+    .dash-locked {
+      text-align: center; padding: 70px 20px;
+      background: var(--snow);
+      border: 1px solid var(--hazelnut);
+      border-radius: 16px;
+    }
+    .dash-locked i { font-size: 2.5rem; color: var(--hazelnut); margin-bottom: 16px; }
+    .dash-locked h3 { font-size: 1.1rem; font-weight: 600; color: var(--charcoal); margin-bottom: 6px; }
+    .dash-locked p  { font-size: 0.875rem; color: var(--mocha); }
+
+    /* Dashboard header */
+    .dash-header {
+      background: var(--snow);
+      border: 1px solid var(--hazelnut);
+      border-radius: 16px; padding: 28px;
+      display: flex; gap: 28px; align-items: center;
+      margin-bottom: 18px; flex-wrap: wrap;
+    }
+
+    /* Score gauge */
+    .gauge-wrap { position: relative; width: 110px; height: 110px; flex-shrink: 0; }
+    .gauge-wrap svg { width: 110px; height: 110px; transform: rotate(-90deg); }
+    .gauge-bg   { fill: none; stroke: var(--hazelnut); stroke-width: 9; }
+    .gauge-ring {
+      fill: none; stroke: var(--tangerine); stroke-width: 9;
+      stroke-linecap: round;
+      stroke-dasharray: 263;
+      stroke-dashoffset: 263;
+      transition: stroke-dashoffset 1.6s cubic-bezier(0.4,0,0.2,1);
+    }
+    .gauge-text {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+    }
+    .gauge-score {
+      font-size: 1.6rem; font-weight: 700;
+      color: var(--espresso); line-height: 1;
+    }
+    .gauge-denom { font-size: 0.7rem; color: var(--charcoal); }
+
+    .dash-header-info { flex: 1; min-width: 200px; }
+    .dash-header-info h1 {
+      font-size: 1.375rem; font-weight: 700;
+      color: var(--espresso); margin-bottom: 4px;
+    }
+    .dash-date { font-size: 0.8125rem; color: var(--charcoal); margin-bottom: 14px; }
+    .recommend-badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: #EDF5DC; color: var(--olive);
+      border: 1px solid var(--olive);
+      border-radius: 8px; padding: 7px 14px;
+      font-size: 0.8125rem; font-weight: 600;
+    }
+
+    /* Debug toggle */
+    .debug-row {
+      display: flex; align-items: center; gap: 9px;
+      margin-top: 14px;
+    }
+    .debug-row label { font-size: 0.8125rem; color: var(--charcoal); cursor: pointer; }
+
+    .toggle-switch {
+      position: relative; display: inline-block;
+      width: 38px; height: 21px; flex-shrink: 0;
+    }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider {
+      position: absolute; inset: 0;
+      background: var(--hazelnut); border-radius: 10.5px;
+      transition: background 0.2s; cursor: pointer;
+    }
+    .toggle-slider::after {
+      content: ''; position: absolute;
+      top: 2.5px; left: 2.5px;
+      width: 16px; height: 16px;
+      background: white; border-radius: 50%;
+      transition: transform 0.2s;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+    .toggle-switch input:checked + .toggle-slider { background: var(--denim); }
+    .toggle-switch input:checked + .toggle-slider::after { transform: translateX(17px); }
+
+    /* Section header */
+    .section-hd {
+      font-size: 0.6875rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--charcoal); margin-bottom: 10px;
+    }
+
+    /* Score cards grid */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(255px, 1fr));
+      gap: 11px; margin-bottom: 18px;
+    }
+
+    .score-card {
+      background: var(--snow);
+      border: 1px solid var(--hazelnut);
+      border-left: 4px solid;
+      border-radius: 12px; padding: 16px;
+      transition: box-shadow 0.2s;
+      animation: cardIn 0.4s ease both;
+    }
+    .score-card:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.07); }
+
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .score-card:nth-child(1) { animation-delay: 0.04s; }
+    .score-card:nth-child(2) { animation-delay: 0.09s; }
+    .score-card:nth-child(3) { animation-delay: 0.14s; }
+    .score-card:nth-child(4) { animation-delay: 0.19s; }
+    .score-card:nth-child(5) { animation-delay: 0.24s; }
+    .score-card:nth-child(6) { animation-delay: 0.29s; }
+    .score-card:nth-child(7) { animation-delay: 0.34s; }
+
+    .card-top {
+      display: flex; justify-content: space-between;
+      align-items: flex-start; margin-bottom: 6px;
+    }
+    .card-qlabel {
+      font-size: 0.6875rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.05em;
+      color: var(--charcoal);
+    }
+    .card-score {
+      font-weight: 700; font-size: 1rem;
+      display: flex; align-items: baseline; gap: 2px;
+    }
+    .card-score-denom { font-weight: 400; font-size: 0.8rem; color: var(--hazelnut); }
+
+    .card-title {
+      font-size: 0.9rem; font-weight: 600;
+      color: var(--espresso); margin-bottom: 8px;
+    }
+
+    .card-bar {
+      height: 5px; background: var(--sand);
+      border-radius: 3px; overflow: hidden; margin-bottom: 9px;
+    }
+    .card-bar-fill {
+      height: 100%; border-radius: 3px;
+      width: 0; transition: width 1s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    .card-evidence {
+      font-size: 0.7875rem; color: var(--cocoa); line-height: 1.5;
+    }
+
+    /* Debug section on card */
+    .card-debug {
+      margin-top: 12px; padding-top: 12px;
+      border-top: 1px dashed var(--hazelnut);
+      display: none;
+    }
+    .card-debug.show { display: block; }
+    .debug-pre {
+      background: var(--espresso); color: #b0ffa0;
+      border-radius: 8px; padding: 12px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.7rem; line-height: 1.75;
+      white-space: pre; overflow-x: auto;
+    }
+
+    /* Chart section */
+    .chart-box {
+      background: var(--snow);
+      border: 1px solid var(--hazelnut);
+      border-radius: 16px; padding: 22px;
+      margin-bottom: 16px;
+    }
+    .chart-box h3 {
+      font-size: 0.9375rem; font-weight: 600;
+      color: var(--espresso); margin-bottom: 18px;
+    }
+    .chart-rows { display: flex; flex-direction: column; gap: 12px; }
+    .chart-row  { display: flex; align-items: center; gap: 12px; }
+    .chart-row-lbl {
+      font-size: 0.78rem; color: var(--cocoa);
+      width: 155px; flex-shrink: 0; text-align: right;
+    }
+    .chart-row-track {
+      flex: 1; height: 9px; background: var(--sand);
+      border-radius: 5px; overflow: hidden;
+    }
+    .chart-row-fill {
+      height: 100%; border-radius: 5px;
+      width: 0; transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
+    }
+    .chart-row-score {
+      font-size: 0.8125rem; font-weight: 600;
+      color: var(--espresso); width: 24px;
+    }
+
+    /* Notes sections */
+    .note-box {
+      background: var(--snow);
+      border: 1px solid var(--hazelnut);
+      border-left: 4px solid;
+      border-radius: 12px; padding: 22px;
+      margin-bottom: 14px;
+    }
+    .note-box.holistic  { border-left-color: var(--denim); }
+    .note-box.integrity { border-left-color: var(--sunflower); }
+    .note-box.summary   { border-left-color: var(--tangerine); }
+    .note-box h3 {
+      font-size: 0.9375rem; font-weight: 600;
+      color: var(--espresso); margin-bottom: 10px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .note-box p {
+      font-size: 0.9rem; line-height: 1.7; color: var(--cocoa);
+    }
+
+    /* ─── CONFETTI ──────────────────────────── */
+    #confetti-layer {
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 9999;
+      overflow: hidden;
+    }
+    .conf {
+      position: absolute; top: -12px;
+      border-radius: 2px;
+      animation: confFall linear forwards;
+    }
+    @keyframes confFall {
+      to { transform: translateY(105vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* ─── SCROLLBAR ───────────────────────── */
+    .chat-messages::-webkit-scrollbar { width: 4px; }
+    .chat-messages::-webkit-scrollbar-track { background: transparent; }
+    .chat-messages::-webkit-scrollbar-thumb { background: var(--hazelnut); border-radius: 2px; }
+
+    /* ─── RESPONSIVE ─────────────────────── */
+    @media (max-width: 580px) {
+      .dash-header { flex-direction: column; align-items: flex-start; }
+      .chart-row-lbl { width: 105px; font-size: 0.72rem; }
+      .nav-status { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ TOP NAV ═══════════════════════════════════════ -->
+<nav class="top-nav">
+  <a class="nav-logo" href="#">
+    <span class="life-ring"><i class="fa-duotone fa-life-ring"></i></span>
+    Influx
+  </a>
+
+  <div class="nav-tabs">
+    <button class="nav-tab active" id="tab-cand" onclick="switchTab('cand')">
+      <i class="fa-duotone fa-comment-dots"></i> Candidate View
+    </button>
+    <button class="nav-tab locked" id="tab-rec" onclick="switchTab('rec')">
+      <i class="fa-solid fa-lock" id="rec-tab-icon"></i> Recruiter Dashboard
+    </button>
+  </div>
+
+  <span class="nav-status" id="nav-status">Assessment in progress</span>
+</nav>
+
+<!-- ═══ CANDIDATE VIEW ════════════════════════════════ -->
+<div id="view-candidate">
+
+  <!-- Progress bar -->
+  <div class="progress-wrap">
+    <span class="progress-label">Progress</span>
+    <div class="progress-segments" id="prog-segs"></div>
+  </div>
+
+  <!-- Chat -->
+  <div class="chat-container">
+    <div class="chat-header">
+      <div class="chat-avatar"><i class="fa-duotone fa-robot"></i></div>
+      <div class="chat-header-info">
+        <strong>Influx AI</strong>
+        <span>Talent Assessment</span>
+      </div>
+      <div class="online-dot"></div>
+    </div>
+
+    <div class="chat-messages" id="chat-msgs"></div>
+
+    <div class="chat-input-area" id="input-area">
+      <textarea class="chat-input" id="chat-input"
+        placeholder="Type your response…" rows="1" disabled></textarea>
+      <button class="send-btn" id="send-btn" onclick="handleSend()" disabled>
+        <i class="fa-solid fa-paper-plane-top"></i>
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══ RECRUITER VIEW ════════════════════════════════ -->
+<div id="view-recruiter">
+
+  <!-- Locked placeholder -->
+  <div class="dash-locked" id="dash-locked">
+    <div><i class="fa-duotone fa-lock-keyhole"></i></div>
+    <h3>Assessment in progress…</h3>
+    <p>The recruiter dashboard will unlock once the candidate completes the interview.</p>
+  </div>
+
+  <!-- Full dashboard (rendered after unlock) -->
+  <div id="dash-content" style="display:none;">
+
+    <!-- Header -->
+    <div class="dash-header">
+      <div class="gauge-wrap">
+        <svg viewBox="0 0 100 100">
+          <circle class="gauge-bg" cx="50" cy="50" r="42"/>
+          <circle class="gauge-ring" id="gauge-ring" cx="50" cy="50" r="42"/>
+        </svg>
+        <div class="gauge-text">
+          <span class="gauge-score">4.0</span>
+          <span class="gauge-denom">/ 5.0</span>
+        </div>
+      </div>
+
+      <div class="dash-header-info">
+        <h1>Candidate Assessment Report</h1>
+        <div class="dash-date" id="dash-date"></div>
+        <div class="recommend-badge">
+          <i class="fa-solid fa-circle-check"></i>
+          Yes — Recommend for next stage
+        </div>
+        <div class="debug-row">
+          <label class="toggle-switch">
+            <input type="checkbox" id="debug-chk" onchange="toggleDebug()">
+            <span class="toggle-slider"></span>
+          </label>
+          <label for="debug-chk">Show Internal Reasoning</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Score cards -->
+    <div class="section-hd">Trait Assessments</div>
+    <div class="cards-grid" id="cards-grid"></div>
+
+    <!-- Chart -->
+    <div class="chart-box">
+      <h3><i class="fa-duotone fa-chart-line" style="color:var(--denim);margin-right:6px;"></i>Score Overview</h3>
+      <div class="chart-rows" id="chart-rows"></div>
+    </div>
+
+    <!-- Notes -->
+    <div class="note-box holistic">
+      <h3><i class="fa-duotone fa-sparkles" style="color:var(--denim);"></i> Holistic Notes</h3>
+      <p>The agency demonstrated in Q5 (test account experimentation, independent resolution) is consistent with the self-direction shown in Q2 (staying late independently to learn the CRM, creating a guide). A pattern of proactive self-sufficiency emerges across both learning and problem-solving contexts.</p>
+    </div>
+
+    <div class="note-box integrity">
+      <h3><i class="fa-duotone fa-triangle-exclamation" style="color:var(--sunflower);"></i> Integrity Notes</h3>
+      <p>Probe responses in Q3 and Q4 show a register shift — core answers are specific and narrative while some probe responses become more polished and framework-like. This suggests possible rehearsed responses when initial examples are exhausted. Worth pressing harder on probes in subsequent rounds.</p>
+    </div>
+
+    <div class="note-box summary">
+      <h3><i class="fa-duotone fa-file-lines" style="color:var(--tangerine);"></i> Summary</h3>
+      <p>This candidate presents as a motivated, self-directed professional making an intentional transition from hospitality to tech support. Their strongest signal is agency — the Q5 answer demonstrating test-account experimentation and fully independent resolution is genuinely strong. Learning agility and systematic thinking are both solid at score 4. Primary development areas are self-awareness (generic under probing, no gaps acknowledged) and process orientation (tactical under pressure but no evidence of systemic improvement). In the next round, probe deeper on self-reflection and explore whether they think systemically about preventing recurring issues.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- Confetti layer -->
+<div id="confetti-layer"></div>
+
+<!-- ═══ SCRIPT ═══════════════════════════════════════ -->
+<script>
+'use strict';
+
+/* ── DATA ──────────────────────────────────────────── */
+
+const SCRIPT = [
+  { text: "Hi! Thanks for taking the time to chat with us today. I'm going to ask you a few questions so we can get to know you better. There are no right or wrong answers — just be yourself. Ready to get started?",
+    wait: true, q: 0 },
+  { text: "Great, let's jump in. Could you share a bit about your background and what brought you to apply for this role?",
+    wait: true, q: 1 },
+  { text: "Thank you for sharing that. I'm curious — what's been the most challenging part of your work so far?",
+    wait: true, q: 1 },
+  { text: "Got it. Appreciate you walking me through that. Let's move on to a different topic.",
+    wait: false, q: 1 },
+  { text: "Can you think of a time you had to pick up a new tool or process that was unfamiliar to you? Walk us through how you went about it.",
+    wait: true, q: 2 },
+  { text: "Thank you for that. How did you know you had a solid enough handle on it to start using it confidently?",
+    wait: true, q: 2 },
+  { text: "Got it. Thanks for that detail. Let me shift gears a bit.",
+    wait: false, q: 2 },
+  { text: "Tell us about a time something wasn't working and it wasn't clear why. What did you do to figure out what was going on?",
+    wait: true, q: 3 },
+  { text: "Appreciate you walking me through that. And in a situation like that, what did you end up finding was actually going on?",
+    wait: true, q: 3 },
+  { text: "Thank you for that. I'd like to ask you about a different situation now.",
+    wait: false, q: 3 },
+  { text: "Can you describe a time you were under real pressure at work — whether from time, workload, or expectations? How did you handle it?",
+    wait: true, q: 4 },
+  { text: "Thank you for sharing that. You mentioned handling a lot at once — how did you decide what to focus on when everything was coming in?",
+    wait: true, q: 4 },
+  { text: "Got it. Thanks for that. Did anything come out of that experience that changed how you approach similar situations now?",
+    wait: true, q: 4 },
+  { text: "Appreciate you walking me through that. Let's move on to one last topic.",
+    wait: false, q: 4 },
+  { text: "Think of a time you were stuck on something and the path forward wasn't obvious. What did you end up doing?",
+    wait: true, q: 5 },
+  { text: "Thank you for that. When the first things you looked at didn't give you a clear answer, what did you try next?",
+    wait: true, q: 5 },
+  { text: "Got it. Thanks for sharing that.\n\nThat's everything I wanted to ask. Thank you so much for taking the time — I really appreciate you sharing your experiences with us. We'll be in touch about next steps. Have a great day!",
+    wait: false, q: 5, final: true },
+];
+
+const SCORES = [
+  {
+    label: 'Q1 · Commitment',
+    title: 'Professional Direction',
+    score: 4,
+    evidence: 'Candidate articulated a clear, internally motivated transition narrative grounding their motivation in growth and deeper problem-solving. Drew a transferable-skills bridge from hospitality to support. Role specificity stays at general transferable skills level without deep understanding of the specific role.',
+    debug:
+`Signal Fields:
+├─ motivation_clarity: FILLED (Score 4 quality)
+│  Evidence: "Internally motivated transition narrative"
+├─ role_specificity: PARTIAL (Score 3 quality)
+│  Evidence: "General transferable skills, no deep role understanding"
+└─ growth_orientation: FILLED (Score 4 quality)
+   Evidence: "Grounded in growth and deeper problem-solving"
+
+Scoring: Strong motivation clarity, limited role specificity.
+Final: 4 — Professional Direction`,
+  },
+  {
+    label: 'Q1 · Self Awareness',
+    title: 'Generic/Scripted',
+    score: 3,
+    evidence: 'Self-descriptions were functional claims within a motivation narrative rather than reflective self-assessment. No gap or limitation was acknowledged despite probing. The probe yielded generic language rather than deeper reflection.',
+    debug:
+`Signal Fields:
+├─ gap_acknowledgment: EMPTY
+│  Evidence: "No limitation acknowledged despite direct probe"
+├─ reflective_depth: PARTIAL (Score 3 quality)
+│  Evidence: "Functional self-claims, not introspective"
+└─ specificity_under_probe: EMPTY
+   Evidence: "Generic language when probed"
+
+Scoring: No gaps acknowledged, shallow reflection.
+Final: 3 — Generic/Scripted`,
+  },
+  {
+    label: 'Q2 · Learning Agility',
+    title: 'Proactive Diligence',
+    score: 4,
+    evidence: 'Described a concrete CRM migration scenario with structured self-directed learning over three consecutive days. Created a Quick Start guide and was asked to lead onboarding. Method was disciplined but linear. Validation through low-volume practice hours.',
+    debug:
+`Signal Fields:
+├─ concreteness: FILLED (Score 5 quality)
+│  Evidence: "CRM migration, three consecutive days"
+├─ self_direction: FILLED (Score 4 quality)
+│  Evidence: "Created Quick Start guide independently"
+└─ methodology: PARTIAL (Score 4 quality)
+   Evidence: "Disciplined but linear — not adaptive"
+
+Scoring: Strong concrete example, solid self-direction.
+Final: 4 — Proactive Diligence`,
+  },
+  {
+    label: 'Q3 · Intelligence',
+    title: 'Systematic Checklist',
+    score: 4,
+    evidence: 'Laid out a logical diagnostic workflow with conditional reasoning. Each check informed the next step. Identified a pattern related to a specific payment method and escalated with evidence. Approach is practiced-workflow rather than hypothesis-driven.',
+    debug:
+`Signal Fields:
+├─ logical_structure: FILLED (Score 4 quality)
+│  Evidence: "Conditional reasoning, each step informed next"
+├─ hypothesis_formation: PARTIAL (Score 3 quality)
+│  Evidence: "Pattern identification but not true hypothesis testing"
+└─ escalation_quality: FILLED (Score 4 quality)
+   Evidence: "Escalated with evidence after pattern found"
+
+Scoring: Strong structure, limited hypothesis formation.
+Final: 4 — Systematic Checklist`,
+  },
+  {
+    label: 'Q4 · Conscientiousness',
+    title: 'High Effort',
+    score: 4,
+    evidence: 'Handled complex high-value customer issue during peak period while managing multiple chats. Approach was deliberate: empathy first, constraint explanation, escalation with reassurance. All cases resolved within SLA. Gap in process improvement — no systemic change described.',
+    debug:
+`Signal Fields:
+├─ effort_under_pressure: FILLED (Score 4 quality)
+│  Evidence: "Multiple chats, peak period, SLA met"
+├─ deliberate_approach: FILLED (Score 4 quality)
+│  Evidence: "Empathy → constraints → escalation sequence"
+└─ systemic_thinking: EMPTY
+   Evidence: "No mention of preventing recurrence"
+
+Scoring: High effort and deliberate process. No systemic improvement.
+Final: 4 — High Effort`,
+  },
+  {
+    label: 'Q4 · Self Awareness',
+    title: 'Professional Ownership',
+    score: 4,
+    evidence: "Consistent 'I' language, took ownership, communicated constraints proactively. Issued appeasement credit. Empathy toward customer demonstrated though framed somewhat instrumentally. No mention of downstream impact on other stakeholders.",
+    debug:
+`Signal Fields:
+├─ ownership_language: FILLED (Score 4 quality)
+│  Evidence: "Consistent 'I' language throughout"
+├─ empathy_quality: FILLED (Score 4 quality)
+│  Evidence: "Demonstrated empathy, slightly instrumental framing"
+└─ stakeholder_awareness: EMPTY
+   Evidence: "No downstream stakeholder impact mentioned"
+
+Scoring: Strong ownership, moderate empathy depth.
+Final: 4 — Professional Ownership`,
+  },
+  {
+    label: 'Q5 · Agency',
+    title: 'Simulation/Experimentation',
+    score: 5,
+    evidence: 'Faced undocumented issue during off-shift with no support. Cross-referenced past cases with documentation. Used test account to reproduce and confirm the issue. Resolved without escalation. Documentation added to knowledge base.',
+    debug:
+`Signal Fields:
+├─ resourcefulness_depth: FILLED (Score 4 quality)
+│  Evidence: "Cross-referenced past cases with documentation during off-shift"
+├─ experimentation: FILLED (Score 5 quality)
+│  Evidence: "Used test account to reproduce and confirm the issue"
+└─ self_sufficiency: FILLED (Score 5 quality)
+   Evidence: "Resolved without escalation, no team support available"
+
+Scoring: All fields filled. resourcefulness at 4,
+experimentation and self_sufficiency at 5.
+Final: 5 — Simulation/Experimentation`,
+  },
+];
+
+/* ── STATE ─────────────────────────────────────────── */
+let nextIdx     = 0;
+let waiting     = false;
+let done        = false;
+let currentQ    = 0;
+let dbUnlocked  = false;
+let debugOn     = false;
+
+/* ── INIT ──────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  buildProgressSegs();
+  setDashDate();
+
+  const inp = document.getElementById('chat-input');
+  inp.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); }
+  });
+  inp.addEventListener('input', () => {
+    inp.style.height = 'auto';
+    inp.style.height = Math.min(inp.scrollHeight, 110) + 'px';
+  });
+
+  setTimeout(showNext, 650);
+});
+
+function setDashDate() {
+  const d = new Date();
+  document.getElementById('dash-date').textContent =
+    d.toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
+}
+
+/* ── PROGRESS ─────────────────────────────────────── */
+function buildProgressSegs() {
+  const c = document.getElementById('prog-segs');
+  for (let i = 1; i <= 5; i++) {
+    const seg = document.createElement('div');
+    seg.className = 'progress-seg';
+    seg.innerHTML =
+      `<div class="progress-seg-bar" id="seg-${i}"></div>` +
+      `<div class="progress-seg-label" id="seglbl-${i}">Q${i}</div>`;
+    c.appendChild(seg);
+  }
+}
+
+function setProgress(q) {
+  for (let i = 1; i <= 5; i++) {
+    const bar = document.getElementById(`seg-${i}`);
+    const lbl = document.getElementById(`seglbl-${i}`);
+    if (i < q)      { bar.className = 'progress-seg-bar done';   lbl.className = 'progress-seg-label done'; }
+    else if (i === q){ bar.className = 'progress-seg-bar active'; lbl.className = 'progress-seg-label active'; }
+    else            { bar.className = 'progress-seg-bar';         lbl.className = 'progress-seg-label'; }
+  }
+}
+
+function completeProgress() {
+  for (let i = 1; i <= 5; i++) {
+    document.getElementById(`seg-${i}`).className = 'progress-seg-bar done';
+    document.getElementById(`seglbl-${i}`).className = 'progress-seg-label done';
+  }
+}
+
+/* ── CHAT ENGINE ──────────────────────────────────── */
+function showNext() {
+  if (nextIdx >= SCRIPT.length) return;
+  const item = SCRIPT[nextIdx++];
+
+  if (item.q > 0 && item.q !== currentQ) {
+    currentQ = item.q;
+    setProgress(currentQ);
+  }
+
+  const typingEl = addTyping();
+
+  const delay = 1100 + Math.random() * 500;
+  setTimeout(() => {
+    removeEl(typingEl);
+    addMsg('ai', item.text);
+
+    if (item.final) {
+      finishInterview();
+    } else if (!item.wait) {
+      setTimeout(showNext, 800);
+    } else {
+      enableInput();
+    }
+  }, delay);
+}
+
+function handleSend() {
+  const inp = document.getElementById('chat-input');
+  const txt = inp.value.trim();
+  if (!txt || !waiting || done) return;
+
+  addMsg('you', txt);
+  inp.value = '';
+  inp.style.height = 'auto';
+  disableInput();
+
+  setTimeout(showNext, 380);
+}
+
+function addMsg(type, text) {
+  const wrap = document.createElement('div');
+  wrap.className = `msg ${type}`;
+
+  const av = document.createElement('div');
+  av.className = `msg-av ${type}`;
+  av.innerHTML = type === 'ai'
+    ? '<i class="fa-duotone fa-robot"></i>'
+    : 'You';
+
+  const bubble = document.createElement('div');
+  bubble.className = 'msg-bubble';
+  bubble.innerHTML = esc(text);
+
+  wrap.appendChild(av);
+  wrap.appendChild(bubble);
+
+  const msgs = document.getElementById('chat-msgs');
+  msgs.appendChild(wrap);
+  scrollDown();
+}
+
+function addTyping() {
+  const row = document.createElement('div');
+  row.className = 'typing-row';
+
+  const av = document.createElement('div');
+  av.className = 'msg-av ai';
+  av.innerHTML = '<i class="fa-duotone fa-robot"></i>';
+
+  const bub = document.createElement('div');
+  bub.className = 'typing-bubble';
+  bub.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+
+  row.appendChild(av);
+  row.appendChild(bub);
+
+  document.getElementById('chat-msgs').appendChild(row);
+  scrollDown();
+  return row;
+}
+
+function removeEl(el) { if (el && el.parentNode) el.parentNode.removeChild(el); }
+
+function enableInput() {
+  waiting = true;
+  document.getElementById('chat-input').disabled  = false;
+  document.getElementById('send-btn').disabled    = false;
+  document.getElementById('chat-input').focus();
+}
+
+function disableInput() {
+  waiting = false;
+  document.getElementById('chat-input').disabled  = true;
+  document.getElementById('send-btn').disabled    = true;
+}
+
+function scrollDown() {
+  const el = document.getElementById('chat-msgs');
+  requestAnimationFrame(() => { el.scrollTop = el.scrollHeight; });
+}
+
+/* ── INTERVIEW COMPLETE ───────────────────────────── */
+function finishInterview() {
+  done = true;
+  completeProgress();
+
+  // Swap input for completion panel
+  const area = document.getElementById('input-area');
+  area.innerHTML =
+    `<div class="complete-panel">
+      <h3><i class="fa-solid fa-circle-check" style="margin-right:5px;"></i>Interview Complete</h3>
+      <p>Thank you — your responses have been recorded.</p>
+      <button class="view-report-btn" onclick="switchTab('rec')">
+        <i class="fa-duotone fa-chart-line"></i> View Assessment Report
+      </button>
+    </div>`;
+
+  // Unlock recruiter tab
+  const tab = document.getElementById('tab-rec');
+  tab.classList.remove('locked');
+  document.getElementById('rec-tab-icon').className = 'fa-duotone fa-chart-line';
+
+  const ns = document.getElementById('nav-status');
+  ns.textContent = 'Assessment complete';
+  ns.classList.add('done');
+
+  launchConfetti();
+}
+
+/* ── TAB SWITCHING ────────────────────────────────── */
+function switchTab(which) {
+  if (which === 'rec' && !done) return;
+
+  const cv  = document.getElementById('view-candidate');
+  const rv  = document.getElementById('view-recruiter');
+  const tc  = document.getElementById('tab-cand');
+  const tr  = document.getElementById('tab-rec');
+
+  if (which === 'cand') {
+    cv.style.display  = 'flex';
+    rv.style.display  = 'none';
+    tc.classList.add('active');
+    tr.classList.remove('active');
+  } else {
+    cv.style.display  = 'none';
+    rv.style.display  = 'block';
+    tc.classList.remove('active');
+    tr.classList.add('active');
+
+    if (!dbUnlocked) {
+      dbUnlocked = true;
+      document.getElementById('dash-locked').style.display  = 'none';
+      document.getElementById('dash-content').style.display = 'block';
+      renderDashboard();
+    }
+  }
+}
+
+/* ── DASHBOARD ────────────────────────────────────── */
+function scoreColor(s) {
+  if (s >= 5) return '#354A0A'; // Forest
+  if (s >= 4) return '#587322'; // Olive
+  if (s >= 3) return '#FFBB00'; // Sunflower
+  if (s >= 2) return '#F38454'; // Salmon
+  return '#8C152F';             // Redwood
+}
+
+function renderDashboard() {
+  renderCards();
+  renderChart();
+
+  // Animate gauge  (r=42, circ ≈ 263.9)
+  const circ = 2 * Math.PI * 42;
+  const fill = (4.0 / 5.0) * circ;
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      document.getElementById('gauge-ring').style.strokeDasharray  = circ;
+      document.getElementById('gauge-ring').style.strokeDashoffset = circ - fill;
+    }, 120);
+  });
+}
+
+function renderCards() {
+  const grid = document.getElementById('cards-grid');
+  grid.innerHTML = '';
+  SCORES.forEach((s, i) => {
+    const col = scoreColor(s.score);
+    const pct = (s.score / 5) * 100;
+    const card = document.createElement('div');
+    card.className = 'score-card';
+    card.style.borderLeftColor = col;
+    card.style.animationDelay  = (i * 0.06) + 's';
+    card.innerHTML =
+      `<div class="card-top">
+        <span class="card-qlabel">${esc(s.label)}</span>
+        <span class="card-score" style="color:${col}">
+          ${s.score}<span class="card-score-denom">/5</span>
+        </span>
+      </div>
+      <div class="card-title">${esc(s.title)}</div>
+      <div class="card-bar">
+        <div class="card-bar-fill" data-pct="${pct}" style="background:${col}"></div>
+      </div>
+      <div class="card-evidence">${esc(s.evidence)}</div>
+      <div class="card-debug" id="dbg-${i}">
+        <div class="debug-pre">${esc(s.debug)}</div>
+      </div>`;
+    grid.appendChild(card);
+  });
+
+  // Animate bars after paint
+  setTimeout(() => {
+    grid.querySelectorAll('.card-bar-fill').forEach(b => {
+      b.style.width = b.dataset.pct + '%';
+    });
+  }, 200);
+}
+
+function renderChart() {
+  const container = document.getElementById('chart-rows');
+  container.innerHTML = '';
+  SCORES.forEach(s => {
+    const col = scoreColor(s.score);
+    const pct = (s.score / 5) * 100;
+    const row = document.createElement('div');
+    row.className = 'chart-row';
+    row.innerHTML =
+      `<span class="chart-row-lbl">${esc(s.label)}</span>
+       <div class="chart-row-track">
+         <div class="chart-row-fill" data-pct="${pct}" style="background:${col}"></div>
+       </div>
+       <span class="chart-row-score">${s.score}</span>`;
+    container.appendChild(row);
+  });
+  setTimeout(() => {
+    container.querySelectorAll('.chart-row-fill').forEach(b => {
+      b.style.width = b.dataset.pct + '%';
+    });
+  }, 350);
+}
+
+function toggleDebug() {
+  debugOn = document.getElementById('debug-chk').checked;
+  document.querySelectorAll('.card-debug').forEach(el => {
+    el.classList.toggle('show', debugOn);
+  });
+}
+
+/* ── CONFETTI ─────────────────────────────────────── */
+function launchConfetti() {
+  const layer  = document.getElementById('confetti-layer');
+  const colors = ['#FF4A00','#FFBB00','#587322','#547099','#F38454','#8C152F','#FFFFFF'];
+  for (let i = 0; i < 72; i++) {
+    setTimeout(() => {
+      const p = document.createElement('div');
+      p.className = 'conf';
+      p.style.left     = Math.random() * 100 + 'vw';
+      p.style.width    = (5 + Math.random() * 8) + 'px';
+      p.style.height   = (5 + Math.random() * 9) + 'px';
+      p.style.background = colors[Math.floor(Math.random() * colors.length)];
+      p.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      const dur = 1.6 + Math.random() * 1.8;
+      p.style.animationDuration = dur + 's';
+      p.style.animationDelay   = Math.random() * 0.4 + 's';
+      p.style.opacity = 0.85 + Math.random() * 0.15;
+      layer.appendChild(p);
+      setTimeout(() => p.remove(), (dur + 0.6) * 1000);
+    }, i * 28);
+  }
+}
+
+/* ── UTILS ────────────────────────────────────────── */
+function esc(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/\n/g, '<br>');
+}
+</script>
+</body>
+</html>
