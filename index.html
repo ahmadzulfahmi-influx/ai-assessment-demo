@@ -178,8 +178,11 @@ html{height:100%}body{min-height:100%;font-family:var(--font);background:var(--s
 .ctag.partial{background:#fff8e1;border-color:#d4a800;color:#7a5f00}
 .ctag.empty{background:var(--sand);border-color:var(--hazel);color:var(--char)}
 .ctag.neg{background:#fde8ec;border-color:#c04060;color:#7a1030}
-.ctag.s5{background:#201B13;border-color:#201B13;color:white}
+.ctag.s5{background:#354A0A;border-color:#354A0A;color:white}
 .ctag.s4{background:var(--bone);border-color:var(--hazel);color:var(--esp)}
+.ctag.s3{background:#FFBB00;border-color:#d4a800;color:#201B13}
+.ctag.s2{background:#F38454;border-color:#e07040;color:#201B13}
+.ctag.s1{background:#8C152F;border-color:#8C152F;color:white}
 
 /* Signal strip */
 .signal-strip{width:100%;margin-top:20px}
@@ -684,8 +687,11 @@ details[open] .method-chev{transform:rotate(180deg)}
         </div>
         <div class="clayer" style="margin-top:8px">
           <span class="clayer-lbl">Layer 2 — Quality Descriptor</span>
-          <div class="clayer-rule"><span class="ctag s5">Score 5</span><span class="clayer-rule-txt">Specific, intentional, goes beyond expected bar</span></div>
-          <div class="clayer-rule"><span class="ctag s4">Score 4</span><span class="clayer-rule-txt">Clear and honest, meets standard, self-directed</span></div>
+          <div class="clayer-rule"><span class="ctag s5">Score 5</span><span class="clayer-rule-txt">All fields filled, intentional &amp; specific — goes beyond the bar</span></div>
+          <div class="clayer-rule"><span class="ctag s4">Score 4</span><span class="clayer-rule-txt">All fields filled, clear &amp; honest — meets standard</span></div>
+          <div class="clayer-rule"><span class="ctag s3">Score 3</span><span class="clayer-rule-txt">Mix of filled &amp; partial — generic or scripted, no depth</span></div>
+          <div class="clayer-rule"><span class="ctag s2">Score 2</span><span class="clayer-rule-txt">Mostly empty after probing — vague, minimal effort</span></div>
+          <div class="clayer-rule"><span class="ctag s1">Score 1</span><span class="clayer-rule-txt">Negative fills present — answer contradicts the trait</span></div>
         </div>
       </div>
       <p class="callout-note">Final score per trait = field state pattern + quality level combined via per-slot scoring matrix</p>
