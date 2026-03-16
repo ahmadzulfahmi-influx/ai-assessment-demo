@@ -50,10 +50,18 @@ html{height:100%}body{min-height:100%;font-family:var(--font);background:var(--s
 .nav-next-btn:hover{background:#e03e00}
 .nav-next-btn:disabled{background:var(--hazel);cursor:not-allowed}
 .nav-next-btn.hidden{display:none}
+.nav-notes-btn{
+  display:flex;align-items:center;justify-content:center;
+  width:32px;height:32px;border-radius:8px;border:1px solid var(--hazel);
+  background:var(--snow);color:var(--char);cursor:pointer;
+  transition:all .2s;flex-shrink:0;font-size:13px;
+}
+.nav-notes-btn:hover{background:var(--sand);border-color:var(--tan);color:var(--tan)}
+.nav-notes-btn.active{background:var(--esp);border-color:var(--esp);color:var(--tan)}
 
 /* ── STAGES ──────────────────────────────── */
 .stage{display:none;min-height:calc(100vh - 60px - 52px);width:100%}
-.stage.active{display:flex;flex-direction:column}
+.stage.active{display:flex;flex-direction:column;padding-bottom:64px}
 .stage-fade-in{animation:fadeIn .3s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
@@ -122,27 +130,27 @@ html{height:100%}body{min-height:100%;font-family:var(--font);background:var(--s
 
 /* ── STAGE 3: HOW IT WORKS ──────────────── */
 .how-stage{padding:32px 24px 40px;flex-direction:column;align-items:center}
-.flow-wrap{width:100%;margin-bottom:28px;display:flex;justify-content:center}
+.flow-wrap{width:100%;margin-bottom:28px;overflow-x:auto}
 .flow-diagram{
   background:var(--snow);border:1px solid var(--hazel);
-  border-radius:16px;padding:32px 24px;
-  display:flex;flex-direction:column;align-items:center;gap:0;
-  width:fit-content;
+  border-radius:16px;padding:24px 28px;
+  display:flex;flex-direction:row;align-items:center;justify-content:center;gap:0;
+  min-width:max-content;width:100%;
 }
-.flow-row{display:flex;align-items:center;gap:12px;justify-content:center}
 .flow-node{
-  padding:12px 18px;border-radius:10px;text-align:center;
-  font-size:0.8125rem;font-weight:600;line-height:1.3;
+  padding:10px 14px;border-radius:10px;text-align:center;
+  font-size:0.78rem;font-weight:600;line-height:1.3;
   border:1.5px solid var(--hazel);background:var(--bone);color:var(--esp);
-  min-width:140px;
+  min-width:110px;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
+  flex-shrink:0;
 }
-.flow-node small{display:block;font-size:0.6875rem;font-weight:400;color:var(--char);margin-top:2px}
+.flow-node small{display:block;font-size:0.625rem;font-weight:400;color:var(--char);margin-top:2px}
 .flow-node.ai{background:var(--esp);color:white;border-color:var(--esp)}
 .flow-node.ai small{color:#b0a898}
 .flow-node.recruiter{background:#EDF5DC;border-color:var(--olive);color:var(--forest)}
-.flow-arrow{font-size:1.125rem;color:var(--hazel);font-weight:300}
-.flow-vline{width:2px;height:20px;background:var(--hazel);margin:0 auto}
+.flow-arrow{font-size:1rem;color:var(--hazel);font-weight:300;padding:0 6px;flex-shrink:0}
+.flow-vline{display:none}
 .how-callouts{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;width:100%}
 .callout-card{background:var(--snow);border:1px solid var(--hazel);border-radius:12px;padding:20px}
 .callout-card h4{font-size:0.875rem;font-weight:700;color:var(--esp);margin-bottom:10px;display:flex;align-items:center;gap:7px}
@@ -153,13 +161,17 @@ html{height:100%}body{min-height:100%;font-family:var(--font);background:var(--s
 .callout-list li::before{content:"·  ";color:var(--tan);font-weight:700}
 .callout-note{font-size:0.75rem;color:var(--char);margin-top:10px;padding-top:8px;border-top:1px solid var(--hazel);font-style:italic}
 .callout-slots{display:flex;flex-direction:column;gap:5px}
-.cslot{display:flex;align-items:center;gap:8px}
-.cslot-q{font-size:.7rem;font-weight:700;background:var(--tan);color:white;border-radius:4px;padding:1px 6px;flex-shrink:0}
-.cslot-t{font-size:.8rem;color:var(--esp)}
+.cslot{display:flex;align-items:flex-start;gap:8px}
+.cslot-q{font-size:.7rem;font-weight:700;background:var(--tan);color:white;border-radius:4px;padding:1px 6px;flex-shrink:0;margin-top:1px}
+.cslot-right{display:flex;flex-direction:column;gap:1px}
+.cslot-t{font-size:.8rem;color:var(--esp);font-weight:500}
+.cslot-focus{font-size:.68rem;color:var(--char)}
 .callout-layers{display:flex;flex-direction:column;gap:10px}
 .clayer{display:flex;flex-direction:column;gap:4px}
-.clayer-lbl{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--char)}
-.clayer-name{font-size:.8rem;font-weight:600;color:var(--esp)}
+.clayer-lbl{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--char);margin-bottom:5px;display:block}
+.clayer-rule{display:flex;align-items:flex-start;gap:6px;margin-bottom:4px}
+.clayer-rule:last-child{margin-bottom:0}
+.clayer-rule-txt{font-size:.72rem;color:var(--cocoa);line-height:1.35}
 .clayer-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:2px}
 .ctag{font-size:.65rem;font-weight:600;padding:2px 7px;border-radius:4px;border:1px solid}
 .ctag.filled{background:#edf5dc;border-color:var(--olive);color:var(--forest)}
@@ -170,7 +182,7 @@ html{height:100%}body{min-height:100%;font-family:var(--font);background:var(--s
 .ctag.s4{background:var(--bone);border-color:var(--hazel);color:var(--esp)}
 
 /* ── STAGE 4: DEMO ───────────────────────── */
-#stage-4{height:calc(100vh - 60px - 52px);overflow:hidden;flex-direction:column}
+#stage-4{height:calc(100vh - 60px - 52px);overflow:hidden;flex-direction:column;padding-bottom:0}
 .demo-banner{
   flex-shrink:0;background:var(--esp);color:white;
   padding:8px 20px;display:flex;align-items:center;
@@ -459,18 +471,23 @@ details[open] .method-chev{transform:rotate(180deg)}
 
 /* ── STAGE 6: NEXT STEPS ────────────────── */
 .next-stage{padding:36px 28px 48px;flex-direction:column;align-items:flex-start}
-.next-table-wrap{width:100%;margin-bottom:24px;overflow:hidden;border-radius:12px;border:1px solid var(--hazel)}
-.next-table{width:100%;border-collapse:collapse;background:var(--snow)}
-.next-table thead th{background:var(--esp);color:white;padding:11px 16px;font-size:.75rem;font-weight:700;text-align:left;letter-spacing:.04em;text-transform:uppercase}
-.next-table thead th:first-child{border-radius:0}
-.next-table thead th i{color:var(--tan);margin-right:6px}
-.next-table tbody tr{border-top:1px solid var(--hazel)}
-.next-table tbody tr:first-child{border-top:none}
-.next-table tbody tr:hover{background:var(--bone)}
-.next-table td{padding:13px 16px;vertical-align:top;font-size:.8375rem;width:33.33%}
-.next-td-item{font-weight:600;color:var(--esp);display:flex;align-items:flex-start;gap:7px}
-.next-td-item::before{content:"→";color:var(--tan);font-weight:700;flex-shrink:0;margin-top:1px}
-.next-td-desc{font-size:.77rem;color:var(--char);line-height:1.4;margin-top:3px;padding-left:16px}
+.next-cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;width:100%;margin-bottom:20px}
+.next-box{background:var(--snow);border:1px solid var(--hazel);border-radius:14px;overflow:hidden}
+.next-box-head{
+  display:flex;align-items:center;gap:9px;
+  background:var(--esp);color:white;
+  padding:11px 16px;font-size:.78rem;font-weight:700;
+  letter-spacing:.04em;text-transform:uppercase;
+}
+.next-box-head i{color:var(--tan);font-size:15px;flex-shrink:0}
+.next-inner-table{width:100%;border-collapse:collapse}
+.next-inner-table tr{border-top:1px solid var(--hazel)}
+.next-inner-table tr:first-child{border-top:none}
+.next-inner-table tr:hover{background:var(--bone)}
+.next-inner-table td{padding:10px 14px;vertical-align:top;font-size:.8125rem}
+.nit-item{font-weight:600;color:var(--esp);width:45%;white-space:nowrap}
+.nit-item::before{content:"→ ";color:var(--tan);font-weight:700}
+.nit-desc{color:var(--char);line-height:1.4;font-size:.77rem}
 .next-highlight{
   width:100%;border-radius:14px;padding:22px 28px;
   display:flex;align-items:flex-start;gap:18px;
@@ -519,6 +536,9 @@ details[open] .method-chev{transform:rotate(180deg)}
     <i class="fa-duotone fa-life-ring"></i> Influx
   </a>
   <div class="stage-stepper" id="stepper"></div>
+  <button class="nav-notes-btn" id="notes-toggle-btn" onclick="toggleNotes()" title="Toggle presenter notes">
+    <i class="fa-duotone fa-microphone"></i>
+  </button>
   <button class="nav-next-btn" id="next-btn" onclick="nextStage()">
     Next <i class="fa-solid fa-arrow-right"></i>
   </button>
@@ -593,56 +613,50 @@ details[open] .method-chev{transform:rotate(180deg)}
   <p class="slide-sub">A two-call architecture: interview and scoring are separate.</p>
   <div class="flow-wrap">
     <div class="flow-diagram">
-      <div class="flow-node"><i class="fa-duotone fa-user" style="font-size:18px;color:var(--tan);margin-bottom:4px"></i>Candidate</div>
-      <div class="flow-vline"></div>
-      <div class="flow-node"><i class="fa-duotone fa-comment-dots" style="font-size:18px;color:var(--denim);margin-bottom:4px"></i>Chat Interface</div>
-      <div class="flow-vline"></div>
-      <div class="flow-node ai"><i class="fa-duotone fa-robot" style="font-size:18px;color:var(--tan);margin-bottom:4px"></i>AI Interviewer<small>Prompt A</small></div>
-      <div class="flow-vline"></div>
-      <div class="flow-node"><i class="fa-duotone fa-file-lines" style="font-size:18px;color:var(--char);margin-bottom:4px"></i>Transcript</div>
-      <div class="flow-vline"></div>
-      <div class="flow-node ai"><i class="fa-duotone fa-brain" style="font-size:18px;color:var(--tan);margin-bottom:4px"></i>AI Scorer<small>Prompt B</small></div>
-      <div class="flow-vline"></div>
-      <div class="flow-node" style="background:#EDF5DC;border-color:var(--olive)"><i class="fa-duotone fa-chart-line" style="font-size:18px;color:var(--olive);margin-bottom:4px"></i>Assessment Report</div>
-      <div class="flow-vline"></div>
-      <div class="flow-node recruiter"><i class="fa-duotone fa-users" style="font-size:18px;color:var(--olive);margin-bottom:4px"></i>Recruiter</div>
+      <div class="flow-node"><i class="fa-duotone fa-user" style="font-size:16px;color:var(--tan);margin-bottom:4px"></i>Candidate</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-node"><i class="fa-duotone fa-comment-dots" style="font-size:16px;color:var(--denim);margin-bottom:4px"></i>Chat Interface</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-node ai"><i class="fa-duotone fa-robot" style="font-size:16px;color:var(--tan);margin-bottom:4px"></i>AI Interviewer<small>Prompt A</small></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-node"><i class="fa-duotone fa-file-lines" style="font-size:16px;color:var(--char);margin-bottom:4px"></i>Transcript</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-node ai"><i class="fa-duotone fa-brain" style="font-size:16px;color:var(--tan);margin-bottom:4px"></i>AI Scorer<small>Prompt B</small></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-node" style="background:#EDF5DC;border-color:var(--olive)"><i class="fa-duotone fa-chart-line" style="font-size:16px;color:var(--olive);margin-bottom:4px"></i>Assessment Report</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-node recruiter"><i class="fa-duotone fa-users" style="font-size:16px;color:var(--olive);margin-bottom:4px"></i>Recruiter</div>
     </div>
   </div>
   <div class="how-callouts">
     <div class="callout-card">
-      <h4><i class="fa-duotone fa-sparkles"></i> 5+5 Question Model</h4>
+      <h4><i class="fa-duotone fa-sparkles"></i> 5-Slot Question Structure</h4>
       <div class="callout-slots">
-        <div class="cslot"><span class="cslot-q">Q1</span><span class="cslot-t">Commitment + Self Awareness</span></div>
-        <div class="cslot"><span class="cslot-q">Q2</span><span class="cslot-t">Learning Agility</span></div>
-        <div class="cslot"><span class="cslot-q">Q3</span><span class="cslot-t">Intelligence</span></div>
-        <div class="cslot"><span class="cslot-q">Q4</span><span class="cslot-t">Conscientiousness + Self Awareness</span></div>
-        <div class="cslot"><span class="cslot-q">Q5</span><span class="cslot-t">Agency</span></div>
+        <div class="cslot"><span class="cslot-q">Q1</span><div class="cslot-right"><span class="cslot-t">Commitment + Self Awareness</span><span class="cslot-focus">Motivation, role fit, self-knowledge</span></div></div>
+        <div class="cslot"><span class="cslot-q">Q2</span><div class="cslot-right"><span class="cslot-t">Learning Agility</span><span class="cslot-focus">Learning process, self-direction</span></div></div>
+        <div class="cslot"><span class="cslot-q">Q3</span><div class="cslot-right"><span class="cslot-t">Intelligence</span><span class="cslot-focus">Problem diagnosis, systematic thinking</span></div></div>
+        <div class="cslot"><span class="cslot-q">Q4</span><div class="cslot-right"><span class="cslot-t">Conscientiousness + Self Awareness</span><span class="cslot-focus">Pressure handling, ownership, stakeholder awareness</span></div></div>
+        <div class="cslot"><span class="cslot-q">Q5</span><div class="cslot-right"><span class="cslot-t">Agency</span><span class="cslot-focus">Resourcefulness, experimentation, self-sufficiency</span></div></div>
       </div>
-      <p class="callout-note">+ up to 5 triggered probes if any score &lt; 3.5</p>
+      <p class="callout-note">Probes triggered per empty signal field — max 2 per trait, 4 for Q1 &amp; Q4</p>
     </div>
     <div class="callout-card">
       <h4><i class="fa-duotone fa-layer-group"></i> Two-Layer Scoring</h4>
       <div class="callout-layers">
         <div class="clayer">
-          <span class="clayer-lbl">Layer 1</span>
-          <span class="clayer-name">Field State Check</span>
-          <div class="clayer-tags">
-            <span class="ctag filled">Filled</span>
-            <span class="ctag partial">Partial</span>
-            <span class="ctag empty">Empty</span>
-            <span class="ctag neg">Negative</span>
-          </div>
+          <span class="clayer-lbl">Layer 1 — Field State Check</span>
+          <div class="clayer-rule"><span class="ctag filled">Filled</span><span class="clayer-rule-txt">Counts toward score; quality set by Layer 2</span></div>
+          <div class="clayer-rule"><span class="ctag partial">Partial</span><span class="clayer-rule-txt">Caps trait at score 3 unless upgraded by probe</span></div>
+          <div class="clayer-rule"><span class="ctag empty">Empty</span><span class="clayer-rule-txt">Pulls score down; scored as absent after probing</span></div>
+          <div class="clayer-rule"><span class="ctag neg">Negative</span><span class="clayer-rule-txt">Caps trait at 2 max (1 if multiple negatives)</span></div>
         </div>
-        <div class="clayer">
-          <span class="clayer-lbl">Layer 2</span>
-          <span class="clayer-name">Quality Descriptor</span>
-          <div class="clayer-tags">
-            <span class="ctag s5">Score 5 quality</span>
-            <span class="ctag s4">Score 4 quality</span>
-          </div>
+        <div class="clayer" style="margin-top:8px">
+          <span class="clayer-lbl">Layer 2 — Quality Descriptor</span>
+          <div class="clayer-rule"><span class="ctag s5">Score 5</span><span class="clayer-rule-txt">Specific, intentional, goes beyond expected bar</span></div>
+          <div class="clayer-rule"><span class="ctag s4">Score 4</span><span class="clayer-rule-txt">Clear and honest, meets standard, self-directed</span></div>
         </div>
       </div>
-      <p class="callout-note">Final score = field states × quality level per trait</p>
+      <p class="callout-note">Final score per trait = field state pattern + quality level combined via per-slot scoring matrix</p>
     </div>
     <div class="callout-card">
       <h4><i class="fa-duotone fa-magnifying-glass"></i> Dynamic Probing</h4>
@@ -775,7 +789,7 @@ details[open] .method-chev{transform:rotate(180deg)}
     <div class="cards-grid" id="cards-grid"></div>
     <div class="radar-box"><div id="radar-container"></div></div>
     <div class="likert-box">
-      <div class="likert-title">Overall Recommendation — Section 5.4</div>
+      <div class="likert-title">Overall Recommendation</div>
       <div class="likert-row likert-current">
         <span class="likert-badge lb-4">4.0 — Yes ✓</span>
         <span class="likert-desc"><strong>Recommend for next stage.</strong> Score ≥ 3.5 — candidate meets the standard across all traits.</span>
@@ -816,38 +830,84 @@ details[open] .method-chev{transform:rotate(180deg)}
 <div class="stage next-stage" id="stage-6">
   <h2 class="slide-title">What Comes Next</h2>
   <p class="slide-sub">The concept is validated. Building it requires an HR × Engineering collaboration.</p>
-  <div class="next-table-wrap">
-    <table class="next-table">
-      <thead>
-        <tr>
-          <th><i class="fa-duotone fa-screwdriver-wrench"></i>What Needs to Be Built</th>
-          <th><i class="fa-duotone fa-coin"></i>Cost Estimate</th>
-          <th><i class="fa-duotone fa-calendar-check"></i>Timeline from Approval</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><div class="next-td-item">Web-based chat interface</div><div class="next-td-desc">Candidate-facing UI, integrated with Anthropic API (Claude)</div></td>
-          <td><div class="next-td-item">~$0.07 per candidate</div><div class="next-td-desc">Full interview + scoring across both prompts</div></td>
-          <td><div class="next-td-item">Prototype build — 1–2 weeks</div><div class="next-td-desc">HR + Engineering working together</div></td>
-        </tr>
-        <tr>
-          <td><div class="next-td-item">Scoring pipeline</div><div class="next-td-desc">Runs Prompt B post-interview, stores transcript and scores</div></td>
-          <td><div class="next-td-item">200+ candidates/month</div><div class="next-td-desc">Under $15/month total API cost</div></td>
-          <td><div class="next-td-item">Pilot with real candidates — 2 weeks</div><div class="next-td-desc">Run alongside existing Typeform process</div></td>
-        </tr>
-        <tr>
-          <td><div class="next-td-item">People App integration</div><div class="next-td-desc">Auto-routes ≥4.5 candidates to recruiter calendar (Calendly)</div></td>
-          <td><div class="next-td-item">Compare: current cost</div><div class="next-td-desc">15–20 min recruiter time × volume of applicants per month</div></td>
-          <td><div class="next-td-item">Full deployment — ~1 month</div><div class="next-td-desc">PA integration, fast-track routing live</div></td>
-        </tr>
-        <tr>
-          <td><div class="next-td-item">Anthropic API access</div><div class="next-td-desc">~$5 initial credit to start; minimal ongoing cost</div></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="next-cols">
+
+    <!-- Box 1: What to Build -->
+    <div class="next-box">
+      <div class="next-box-head">
+        <i class="fa-duotone fa-screwdriver-wrench"></i>
+        <span>What Needs to Be Built</span>
+      </div>
+      <table class="next-inner-table">
+        <tbody>
+          <tr>
+            <td class="nit-item">Web-based chat interface</td>
+            <td class="nit-desc">Candidate-facing UI, integrated with Anthropic API (Claude)</td>
+          </tr>
+          <tr>
+            <td class="nit-item">Scoring pipeline</td>
+            <td class="nit-desc">Runs Prompt B post-interview, stores transcript and scores</td>
+          </tr>
+          <tr>
+            <td class="nit-item">People App integration</td>
+            <td class="nit-desc">Auto-routes ≥4.5 candidates to recruiter calendar (Calendly)</td>
+          </tr>
+          <tr>
+            <td class="nit-item">Anthropic API access</td>
+            <td class="nit-desc">~$5 initial credit; minimal ongoing cost</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Box 2: Cost -->
+    <div class="next-box">
+      <div class="next-box-head">
+        <i class="fa-duotone fa-coin"></i>
+        <span>Cost Estimate</span>
+      </div>
+      <table class="next-inner-table">
+        <tbody>
+          <tr>
+            <td class="nit-item">~$0.07 per candidate</td>
+            <td class="nit-desc">Full interview + scoring across both prompts</td>
+          </tr>
+          <tr>
+            <td class="nit-item">Under $15/month</td>
+            <td class="nit-desc">At 200+ candidates/month total API cost</td>
+          </tr>
+          <tr>
+            <td class="nit-item">Current cost (comparison)</td>
+            <td class="nit-desc">15–20 min recruiter time × volume of applicants per month</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Box 3: Timeline -->
+    <div class="next-box">
+      <div class="next-box-head">
+        <i class="fa-duotone fa-calendar-check"></i>
+        <span>Timeline from Approval</span>
+      </div>
+      <table class="next-inner-table">
+        <tbody>
+          <tr>
+            <td class="nit-item">Prototype build</td>
+            <td class="nit-desc">1–2 weeks — HR + Engineering working together</td>
+          </tr>
+          <tr>
+            <td class="nit-item">Pilot with real candidates</td>
+            <td class="nit-desc">2 weeks — run alongside existing Typeform process</td>
+          </tr>
+          <tr>
+            <td class="nit-item">Full deployment</td>
+            <td class="nit-desc">~1 month — PA integration, fast-track routing live</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
   </div>
   <div class="next-highlight eng">
     <i class="fa-duotone fa-people-arrows"></i>
@@ -1097,14 +1157,34 @@ function updateNotes() {
   notesDismissed = false;
   const bar = document.getElementById('pnotes');
   const txt = document.getElementById('pnotes-text');
+  const btn = document.getElementById('notes-toggle-btn');
   const note = NOTES[currentStage - 1];
-  if (note) { txt.textContent = note; bar.classList.remove('hidden'); }
-  else { bar.classList.add('hidden'); }
+  if (note) { txt.textContent = note; bar.classList.remove('hidden'); btn.classList.add('active'); }
+  else { bar.classList.add('hidden'); btn.classList.remove('active'); }
 }
 
 function dismissNotes() {
   document.getElementById('pnotes').classList.add('hidden');
+  document.getElementById('notes-toggle-btn').classList.remove('active');
   notesDismissed = true;
+}
+
+function toggleNotes() {
+  const bar = document.getElementById('pnotes');
+  const btn = document.getElementById('notes-toggle-btn');
+  if (bar.classList.contains('hidden')) {
+    const note = NOTES[currentStage - 1];
+    if (note) {
+      document.getElementById('pnotes-text').textContent = note;
+      bar.classList.remove('hidden');
+      btn.classList.add('active');
+      notesDismissed = false;
+    }
+  } else {
+    bar.classList.add('hidden');
+    btn.classList.remove('active');
+    notesDismissed = true;
+  }
 }
 
 /* ─── CHAT PROGRESS ─────────────────────── */
