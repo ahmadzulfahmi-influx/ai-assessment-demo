@@ -127,6 +127,7 @@ html,body{height:100%;font-family:var(--font);background:var(--sand);color:var(-
   background:var(--snow);border:1px solid var(--hazel);
   border-radius:16px;padding:32px 24px;
   display:flex;flex-direction:column;align-items:center;gap:0;
+  width:fit-content;
 }
 .flow-row{display:flex;align-items:center;gap:12px;justify-content:center}
 .flow-node{
@@ -165,6 +166,14 @@ html,body{height:100%;font-family:var(--font);background:var(--sand);color:var(-
 }
 .bts-toggle-btn:hover{background:rgba(255,255,255,.1)}
 .bts-toggle-btn.active{background:rgba(255,74,0,.3);border-color:var(--tan)}
+.skip-chat-btn{
+  display:flex;align-items:center;gap:6px;
+  padding:5px 12px;border-radius:6px;border:1px solid rgba(255,255,255,.35);
+  background:rgba(255,255,255,.08);color:white;font-family:var(--font);
+  font-size:0.75rem;font-weight:500;cursor:pointer;transition:all .2s;white-space:nowrap;
+}
+.skip-chat-btn:hover{background:rgba(255,255,255,.18)}
+.skip-chat-btn:disabled{opacity:.35;cursor:default}
 .demo-body{flex:1;display:flex;gap:0;min-height:0;padding:12px 12px 0}
 
 /* BTS Panel */
@@ -446,14 +455,14 @@ html,body{height:100%;font-family:var(--font);background:var(--sand);color:var(-
       <ul class="compare-list">
         <li><i class="fa-solid fa-minus" style="color:var(--hazel)"></i>Typeform — candidates fill a static form</li>
         <li><i class="fa-solid fa-minus" style="color:var(--hazel)"></i>Same fixed questions for every applicant</li>
-        <li><i class="fa-solid fa-minus" style="color:var(--hazel)"></i>No follow-ups — surface answers only</li>
-        <li><i class="fa-solid fa-minus" style="color:var(--hazel)"></i>Can't probe when a response is vague or shallow</li>
-        <li><i class="fa-solid fa-minus" style="color:var(--hazel)"></i>Recruiter reads and shortlists manually</li>
-        <li><i class="fa-solid fa-minus" style="color:var(--hazel)"></i>No signal on motivation, resilience, or fit</li>
+        <li><i class="fa-solid fa-minus" style="color:var(--hazel)"></i>AI-graded using Best / Expected / Poor rubric</li>
+        <li><i class="fa-solid fa-minus" style="color:var(--hazel)"></i>No follow-ups — only surface-level answers captured</li>
+        <li><i class="fa-solid fa-minus" style="color:var(--hazel)"></i>Can't probe vague or shallow responses</li>
+        <li><i class="fa-solid fa-minus" style="color:var(--hazel)"></i>No signal on tone, motivation, or live reasoning</li>
       </ul>
       <div class="compare-stat">
         <span class="compare-stat-num">Static</span>
-        <span class="compare-stat-lbl">form — no dynamic follow-ups possible</span>
+        <span class="compare-stat-lbl">no probing — depth is missed</span>
       </div>
     </div>
     <div class="compare-card new">
@@ -485,27 +494,25 @@ html,body{height:100%;font-family:var(--font);background:var(--sand);color:var(-
   <div class="flow-wrap">
     <div class="flow-diagram">
       <div class="flow-row">
-        <div class="flow-node"><i class="fa-duotone fa-user" style="display:block;font-size:18px;color:var(--tan);margin-bottom:4px"></i>Candidate</div>
+        <div class="flow-node" style="min-width:140px"><i class="fa-duotone fa-user" style="display:block;font-size:18px;color:var(--tan);margin-bottom:4px"></i>Candidate</div>
         <span class="flow-arrow">→</span>
-        <div class="flow-node"><i class="fa-duotone fa-comment-dots" style="display:block;font-size:18px;color:var(--denim);margin-bottom:4px"></i>Chat Interface</div>
+        <div class="flow-node" style="min-width:140px"><i class="fa-duotone fa-comment-dots" style="display:block;font-size:18px;color:var(--denim);margin-bottom:4px"></i>Chat Interface</div>
         <span class="flow-arrow">→</span>
-        <div class="flow-node ai"><i class="fa-duotone fa-robot" style="display:block;font-size:18px;color:var(--tan);margin-bottom:4px"></i>AI Interviewer<small>Prompt A</small></div>
+        <div class="flow-node ai" style="min-width:140px"><i class="fa-duotone fa-robot" style="display:block;font-size:18px;color:var(--tan);margin-bottom:4px"></i>AI Interviewer<small>Prompt A</small></div>
       </div>
-      <div class="flow-vline" style="margin-left:auto;margin-right:0;width:2px;width:calc(100% / 5 - 8px);height:20px;background:transparent;display:flex;align-items:center;justify-content:flex-end;padding-right:calc(50% / 5)">
-        <div style="width:2px;height:20px;background:var(--hazel)"></div>
-      </div>
-      <div class="flow-row" style="justify-content:flex-end">
+      <div style="display:flex;width:100%;justify-content:flex-end"><div style="min-width:140px;display:flex;justify-content:center"><div style="width:2px;height:20px;background:var(--hazel)"></div></div></div>
+      <div class="flow-row" style="justify-content:flex-end;width:100%">
         <div class="flow-node" style="min-width:140px"><i class="fa-duotone fa-file-lines" style="display:block;font-size:18px;color:var(--char);margin-bottom:4px"></i>Transcript</div>
       </div>
-      <div style="display:flex;justify-content:flex-end;padding-right:calc(50% / 5)"><div style="width:2px;height:20px;background:var(--hazel)"></div></div>
-      <div class="flow-row" style="justify-content:flex-end">
+      <div style="display:flex;width:100%;justify-content:flex-end"><div style="min-width:140px;display:flex;justify-content:center"><div style="width:2px;height:20px;background:var(--hazel)"></div></div></div>
+      <div class="flow-row" style="justify-content:flex-end;width:100%">
         <div class="flow-node ai" style="min-width:140px"><i class="fa-duotone fa-brain" style="display:block;font-size:18px;color:var(--tan);margin-bottom:4px"></i>AI Scorer<small>Prompt B</small></div>
       </div>
-      <div style="display:flex;justify-content:flex-end;padding-right:calc(50% / 5)"><div style="width:2px;height:20px;background:var(--hazel)"></div></div>
-      <div class="flow-row" style="justify-content:flex-end">
+      <div style="display:flex;width:100%;justify-content:flex-end"><div style="min-width:140px;display:flex;justify-content:center"><div style="width:2px;height:20px;background:var(--hazel)"></div></div></div>
+      <div class="flow-row" style="justify-content:flex-end;width:100%">
         <div class="flow-node" style="min-width:140px;background:#EDF5DC;border-color:var(--olive)"><i class="fa-duotone fa-chart-line" style="display:block;font-size:18px;color:var(--olive);margin-bottom:4px"></i>Assessment Report</div>
         <span class="flow-arrow">→</span>
-        <div class="flow-node recruiter"><i class="fa-duotone fa-users" style="display:block;font-size:18px;color:var(--olive);margin-bottom:4px"></i>Recruiter</div>
+        <div class="flow-node recruiter" style="min-width:140px"><i class="fa-duotone fa-users" style="display:block;font-size:18px;color:var(--olive);margin-bottom:4px"></i>Recruiter</div>
       </div>
     </div>
   </div>
@@ -540,9 +547,14 @@ html,body{height:100%;font-family:var(--font);background:var(--sand);color:var(-
 <div class="stage" id="stage-4">
   <div class="demo-banner">
     <span class="demo-banner-label"><i class="fa-solid fa-crosshairs"></i> CANDIDATE VIEW — This is what the candidate sees</span>
-    <button class="bts-toggle-btn" id="bts-btn" onclick="toggleBTS()">
-      <i class="fa-duotone fa-magnifying-glass"></i> Behind the Scenes
-    </button>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="skip-chat-btn" id="skip-btn" onclick="skipChat()">
+        <i class="fa-solid fa-forward-fast"></i> Fill All &amp; Skip
+      </button>
+      <button class="bts-toggle-btn" id="bts-btn" onclick="toggleBTS()">
+        <i class="fa-duotone fa-magnifying-glass"></i> Behind the Scenes
+      </button>
+    </div>
   </div>
   <div class="demo-body">
     <!-- Chat -->
@@ -654,7 +666,7 @@ html,body{height:100%;font-family:var(--font);background:var(--sand);color:var(-
   </div>
   <div class="next-highlight">
     <i class="fa-duotone fa-chart-line"></i>
-    <p><strong>93% calibration accuracy</strong> against recruiter benchmarks. Zero rubric adjustments needed after testing. The scoring framework is built, calibrated, and validated — we just need the green light.</p>
+    <p><strong>93% calibration accuracy</strong> against recruiter benchmarks. Zero rubric adjustments needed after testing. The scoring framework is built, calibrated, and validated — ready to move into Phase 2 calibration and production build.</p>
   </div>
 </div>
 
@@ -792,6 +804,7 @@ let nextIdx = 0;
 let waiting = false;
 let chatDone = false;
 let chatStarted = false;
+let skipActive = false;
 let currentQ = 0;
 let btsOpen = false;
 let dashRendered = false;
@@ -943,10 +956,11 @@ function showNext() {
     addMsg('ai', item.text);
     setBTS(BTS[btsIdx]?.onQ);
 
+    if (skipActive) return;
     if (item.final) {
       finishInterview();
     } else if (!item.wait) {
-      setTimeout(showNext, 750);
+      setTimeout(showNext, 1800);
     } else {
       enableInput(item.prefill);
     }
@@ -963,7 +977,7 @@ function handleSend() {
   inp.value = ''; inp.style.height = 'auto';
   disableInput();
   if (BTS[btsIdx]?.onA) setBTS(BTS[btsIdx].onA);
-  setTimeout(showNext, 350);
+  setTimeout(showNext, 1200);
 }
 
 function addMsg(type, text) {
@@ -1011,11 +1025,33 @@ function scrollDown() {
 function finishInterview() {
   chatDone = true;
   completeChatProgress();
+  const skipBtn = document.getElementById('skip-btn');
+  if (skipBtn) skipBtn.disabled = true;
   const area = document.getElementById('input-area');
   area.innerHTML = `<div class="complete-panel"><h3><i class="fa-solid fa-circle-check" style="margin-right:5px"></i>Interview Complete</h3><p>Thank you — responses have been recorded.</p><button class="view-btn" onclick="goToStage(5)"><i class="fa-duotone fa-chart-line"></i> View Assessment Report</button></div>`;
   document.getElementById('next-btn').disabled = false;
   document.getElementById('next-btn').innerHTML = 'View Results <i class="fa-solid fa-arrow-right"></i>';
   launchConfetti();
+}
+
+function skipChat() {
+  if (chatDone) return;
+  skipActive = true;
+  waiting = false;
+  disableInput();
+  document.querySelectorAll('.typing-row').forEach(el => el.remove());
+  // Fast-add all remaining messages
+  while (nextIdx < SCRIPT.length) {
+    const item = SCRIPT[nextIdx++];
+    addMsg('ai', item.text);
+    if (item.wait && item.prefill && !item.final) {
+      addMsg('you', item.prefill);
+    }
+  }
+  // Show final BTS state
+  const lastBTS = BTS[BTS.length - 1];
+  if (lastBTS?.onA) setBTS(lastBTS.onA);
+  setTimeout(finishInterview, 200);
 }
 
 /* ─── BTS PANEL ─────────────────────────── */
