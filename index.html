@@ -561,9 +561,106 @@ details[open] .method-chev{transform:rotate(180deg)}
   .stage-stepper .step-label,.step-line{display:none}
   .intro-metrics{gap:20px}
 }
+
+/* ── PASSWORD GATE ───────────────────────── */
+#gate{
+  position:fixed;inset:0;z-index:9999;
+  background:var(--esp);
+  display:flex;align-items:center;justify-content:center;
+}
+#gate.unlocked{animation:gateFade .35s ease forwards}
+@keyframes gateFade{to{opacity:0;pointer-events:none}}
+.gate-box{
+  background:var(--snow);border-radius:20px;
+  padding:40px 44px;width:100%;max-width:380px;
+  display:flex;flex-direction:column;align-items:center;gap:0;
+  box-shadow:0 24px 60px rgba(0,0,0,.35);
+}
+.gate-logo{display:flex;align-items:center;gap:9px;margin-bottom:28px}
+.gate-logo i{font-size:26px;color:var(--tan)}
+.gate-logo span{font-size:1.25rem;font-weight:700;color:var(--esp)}
+.gate-title{font-size:1rem;font-weight:700;color:var(--esp);margin-bottom:6px;text-align:center}
+.gate-sub{font-size:.8125rem;color:var(--char);margin-bottom:24px;text-align:center}
+.gate-input-wrap{position:relative;width:100%;margin-bottom:12px}
+.gate-input{
+  width:100%;padding:11px 42px 11px 14px;
+  border:1.5px solid var(--hazel);border-radius:10px;
+  font-family:var(--font);font-size:.9375rem;color:var(--esp);
+  background:var(--snow);outline:none;transition:border-color .2s;
+  letter-spacing:.08em;
+}
+.gate-input:focus{border-color:var(--tan)}
+.gate-input.error{border-color:#8C152F;animation:shake .3s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.gate-eye{
+  position:absolute;right:12px;top:50%;transform:translateY(-50%);
+  background:none;border:none;cursor:pointer;color:var(--char);
+  font-size:14px;padding:2px;transition:color .2s;
+}
+.gate-eye:hover{color:var(--tan)}
+.gate-err{font-size:.75rem;color:#8C152F;margin-bottom:12px;height:16px;text-align:center;width:100%}
+.gate-btn{
+  width:100%;padding:12px;border-radius:10px;border:none;
+  background:var(--tan);color:white;font-family:var(--font);
+  font-size:.9375rem;font-weight:600;cursor:pointer;transition:all .2s;
+}
+.gate-btn:hover{background:#e03e00}
 </style>
 </head>
 <body>
+
+<!-- PASSWORD GATE -->
+<div id="gate">
+  <div class="gate-box">
+    <div class="gate-logo"><i class="fa-duotone fa-life-ring"></i><span>Influx</span></div>
+    <p class="gate-title">Internal Demo</p>
+    <p class="gate-sub">Enter the access password to continue.</p>
+    <div class="gate-input-wrap">
+      <input class="gate-input" id="gate-input" type="password" placeholder="Password" autocomplete="off"
+        onkeydown="if(event.key==='Enter')unlockGate()">
+      <button class="gate-eye" id="gate-eye" onclick="toggleGateEye()" tabindex="-1">
+        <i class="fa-solid fa-eye" id="gate-eye-icon"></i>
+      </button>
+    </div>
+    <div class="gate-err" id="gate-err"></div>
+    <button class="gate-btn" onclick="unlockGate()">Enter</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  const PASS = 'influx2025';
+  if (sessionStorage.getItem('gate_ok') === '1') {
+    document.getElementById('gate').style.display = 'none';
+  }
+  window.unlockGate = function() {
+    const inp = document.getElementById('gate-input');
+    const err = document.getElementById('gate-err');
+    if (inp.value === PASS) {
+      sessionStorage.setItem('gate_ok', '1');
+      const gate = document.getElementById('gate');
+      gate.classList.add('unlocked');
+      gate.addEventListener('animationend', () => gate.style.display = 'none', { once: true });
+    } else {
+      err.textContent = 'Incorrect password. Try again.';
+      inp.classList.add('error');
+      inp.value = '';
+      inp.addEventListener('animationend', () => inp.classList.remove('error'), { once: true });
+    }
+  };
+  window.toggleGateEye = function() {
+    const inp = document.getElementById('gate-input');
+    const icon = document.getElementById('gate-eye-icon');
+    if (inp.type === 'password') {
+      inp.type = 'text';
+      icon.className = 'fa-solid fa-eye-slash';
+    } else {
+      inp.type = 'password';
+      icon.className = 'fa-solid fa-eye';
+    }
+  };
+})();
+</script>
 
 <!-- NAV -->
 <nav class="top-nav">
