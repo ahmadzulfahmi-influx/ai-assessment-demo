@@ -580,6 +580,30 @@ details[open] .method-chev{transform:rotate(180deg)}
   padding:9px 16px;background:var(--bone);border-top:1px solid var(--hazel);
   font-size:.75rem;color:var(--char);display:flex;align-items:flex-start;gap:8px;line-height:1.5;
 }
+.rec-ft-section{border-top:1px solid var(--hazel)}
+.rec-ft-hd{
+  padding:8px 16px;background:rgba(255,74,0,.05);border-bottom:1px solid var(--hazel);
+  font-size:.72rem;font-weight:700;color:var(--esp);display:flex;align-items:center;gap:7px;
+  letter-spacing:.02em;
+}
+.rec-ft-body{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.rec-ft-col{padding:12px 16px}
+.rec-ft-col:first-child{border-right:1px solid var(--hazel)}
+.rec-ft-tier{display:flex;flex-direction:column;gap:6px}
+.rec-ft-tier-lbl{display:flex;align-items:center;gap:7px;font-size:.75rem;color:var(--char)}
+.rec-ft-badge{font-size:.62rem;font-weight:700;padding:2px 7px;border-radius:4px;white-space:nowrap}
+.rec-ft-badge.hi{background:#354A0A;color:white}
+.rec-ft-badge.lo{background:var(--sand);border:1px solid var(--hazel);color:var(--char)}
+.rec-ft-detail{font-size:.75rem;color:var(--cocoa);line-height:1.5}
+.rec-ft-save{display:flex;flex-direction:column;gap:2px;margin-top:4px;padding:6px 10px;background:var(--bone);border-radius:6px;border-left:3px solid var(--olive)}
+.rec-ft-save-lbl{font-size:.65rem;text-transform:uppercase;letter-spacing:.05em;color:var(--char)}
+.rec-ft-save-val{font-size:.78rem;color:var(--esp)}
+.rec-ft-total{
+  padding:8px 16px;background:var(--esp);color:white;
+  font-size:.75rem;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+}
+.rec-ft-total span:first-child{color:#b0a898;white-space:nowrap}
+.rec-ft-total strong{color:var(--tan)}
 
 /* ── RESPONSIVE ────────────────────────── */
 @media(max-width:1000px){
@@ -595,6 +619,8 @@ details[open] .method-chev{transform:rotate(180deg)}
   .rec-col.manual{border-right:none;border-bottom:1px solid var(--hazel)}
   .rec-divider{display:none}
   .rec-analysis-sub{display:none}
+  .rec-ft-body{grid-template-columns:1fr}
+  .rec-ft-col:first-child{border-right:none;border-bottom:1px solid var(--hazel)}
 }
 
 /* ── PASSWORD GATE ───────────────────────── */
@@ -1156,9 +1182,42 @@ details[open] .method-chev{transform:rotate(180deg)}
         <div class="rec-row"><span class="rec-lbl">Runs in parallel?</span><span class="rec-val rec-val-ok">Yes — all candidates simultaneously</span></div>
       </div>
     </div>
+    <!-- Fast-track breakdown -->
+    <div class="rec-ft-section">
+      <div class="rec-ft-hd">
+        <i class="fa-solid fa-bolt" style="color:var(--tan);font-size:12px"></i>
+        Fast-Track Impact — Top 20% at 200 candidates/month
+      </div>
+      <div class="rec-ft-body">
+        <div class="rec-ft-col">
+          <div class="rec-ft-tier top">
+            <div class="rec-ft-tier-lbl"><span class="rec-ft-badge hi">≥ 4.5 · Top 20%</span> ~40 candidates</div>
+            <div class="rec-ft-detail">AI sends Calendly link directly — recruiter skips screening call entirely, goes straight to proper interview with full assessment report in hand</div>
+            <div class="rec-ft-save">
+              <span class="rec-ft-save-lbl">Recruiter time saved</span>
+              <span class="rec-ft-save-val">40 × 60 min = <strong>40 hrs</strong> → <strong>$121 saved</strong></span>
+            </div>
+          </div>
+        </div>
+        <div class="rec-ft-col">
+          <div class="rec-ft-tier std">
+            <div class="rec-ft-tier-lbl"><span class="rec-ft-badge lo">&lt; 4.5 · Bottom 80%</span> ~160 candidates</div>
+            <div class="rec-ft-detail">Recruiter reviews 5-min assessment report, then decides advance or reject — no scheduling overhead, no screening call required</div>
+            <div class="rec-ft-save">
+              <span class="rec-ft-save-lbl">Recruiter time saved</span>
+              <span class="rec-ft-save-val">160 × 55 min = <strong>147 hrs</strong> → <strong>$444 saved</strong></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="rec-ft-total">
+        <span>Total screening labor saved (200/mo):</span>
+        <span><strong>187 hrs · ~$565 saved</strong> — from $604 manual down to ~$39 recruiter labor + $14 API = <strong>~$53/month total</strong></span>
+      </div>
+    </div>
     <div class="rec-analysis-note">
-      <i class="fa-solid fa-bolt" style="color:var(--tan)"></i>
-      At 200 candidates/month: manual screening costs ~$604 in recruiter labor alone. AI brings that to ~$64 total — a <strong>~90% reduction</strong>. At 500/month, the gap widens further: ~$1,510 manual vs. ~$160 AI.
+      <i class="fa-solid fa-chart-line" style="color:var(--tan)"></i>
+      Fast-tracking the top 20% also improves candidate experience — strong candidates get a slot within minutes of completing the assessment, not days later after a scheduling queue.
     </div>
   </div>
 
