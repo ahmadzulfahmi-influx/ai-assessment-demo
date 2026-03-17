@@ -550,6 +550,37 @@ details[open] .method-chev{transform:rotate(180deg)}
 .conf{position:absolute;top:-10px;border-radius:2px;animation:confFall linear forwards}
 @keyframes confFall{to{transform:translateY(105vh) rotate(720deg);opacity:0}}
 
+/* ── RECRUITER ANALYSIS ─────────────────── */
+.rec-analysis{
+  width:100%;background:var(--snow);border:1px solid var(--hazel);
+  border-radius:14px;overflow:hidden;margin-bottom:16px;
+}
+.rec-analysis-hd{
+  display:flex;align-items:center;gap:9px;flex-wrap:wrap;
+  padding:11px 16px;border-bottom:1px solid var(--hazel);
+  font-size:.78rem;font-weight:700;color:var(--esp);
+}
+.rec-analysis-sub{font-size:.72rem;font-weight:400;color:var(--char);margin-left:auto}
+.rec-analysis-body{display:grid;grid-template-columns:1fr 32px 1fr;align-items:stretch}
+.rec-col{padding:16px 18px;display:flex;flex-direction:column;gap:0}
+.rec-col.manual{border-right:1px solid var(--hazel)}
+.rec-col-head{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--char);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--hazel)}
+.rec-col.ai .rec-col-head{color:var(--olive)}
+.rec-row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:5px 0;border-bottom:1px solid rgba(211,197,191,.3)}
+.rec-row:last-child{border-bottom:none}
+.rec-lbl{font-size:.75rem;color:var(--char);flex-shrink:0}
+.rec-val{font-size:.8rem;font-weight:600;color:var(--esp);text-align:right}
+.rec-val-sm{font-size:.72rem;font-weight:400;color:var(--cocoa)}
+.rec-val-hi{color:var(--cocoa)}
+.ai-hi{color:var(--olive) !important}
+.rec-val-no{color:var(--red);font-size:.75rem}
+.rec-val-ok{color:var(--olive);font-size:.75rem}
+.rec-divider{display:flex;align-items:center;justify-content:center;color:var(--hazel);font-size:12px;background:var(--bone)}
+.rec-analysis-note{
+  padding:9px 16px;background:var(--bone);border-top:1px solid var(--hazel);
+  font-size:.75rem;color:var(--char);display:flex;align-items:flex-start;gap:8px;line-height:1.5;
+}
+
 /* ── RESPONSIVE ────────────────────────── */
 @media(max-width:1000px){
   .next-cols{grid-template-columns:1fr}
@@ -560,6 +591,10 @@ details[open] .method-chev{transform:rotate(180deg)}
   .compare-grid,.how-callouts{grid-template-columns:1fr}
   .stage-stepper .step-label,.step-line{display:none}
   .intro-metrics{gap:20px}
+  .rec-analysis-body{grid-template-columns:1fr;grid-template-rows:auto}
+  .rec-col.manual{border-right:none;border-bottom:1px solid var(--hazel)}
+  .rec-divider{display:none}
+  .rec-analysis-sub{display:none}
 }
 
 /* ── PASSWORD GATE ───────────────────────── */
@@ -770,7 +805,7 @@ details[open] .method-chev{transform:rotate(180deg)}
         <div class="cslot"><span class="cslot-q">Q4</span><div class="cslot-right"><span class="cslot-t">Conscientiousness + Self Awareness</span><span class="cslot-focus">Pressure handling, ownership, stakeholder awareness</span></div></div>
         <div class="cslot"><span class="cslot-q">Q5</span><div class="cslot-right"><span class="cslot-t">Agency</span><span class="cslot-focus">Resourcefulness, experimentation, self-sufficiency</span></div></div>
       </div>
-      <p class="callout-note">Probes triggered per empty signal field — max 2 per trait, 4 for Q1 &amp; Q4</p>
+      <p class="callout-note">Probes triggered per empty signal field — max 1 per trait, 2 for Q1 &amp; Q4</p>
     </div>
     <div class="callout-card">
       <h4><i class="fa-duotone fa-layer-group"></i> Two-Layer Scoring</h4>
@@ -798,7 +833,7 @@ details[open] .method-chev{transform:rotate(180deg)}
       <ul class="callout-list">
         <li>18 signal fields checked per answer</li>
         <li>Probes target specific <em>empty</em> fields — not pre-written scripts</li>
-        <li>Max 2 probes per trait (4 for dual-trait slots)</li>
+        <li>Max 1 probe per trait (2 for dual-trait slots)</li>
         <li>Non-leading — candidate never knows what's being assessed</li>
       </ul>
     </div>
@@ -933,7 +968,7 @@ details[open] .method-chev{transform:rotate(180deg)}
           <div class="method-col">
             <div class="method-prompt-badge a">Prompt A</div>
             <h4>AI Interviewer</h4>
-            <p>Conducts the chat. Generates behavioral questions from structured templates (Q1–Q5). After each answer, runs <strong>Layer 1</strong> — checks 18 signal fields per trait and marks each as Filled, Partial, Empty, or Negative. Generates targeted probes for empty fields. Max 2 probes per trait. Candidate never knows what signals are being checked.</p>
+            <p>Conducts the chat. Generates behavioral questions from structured templates (Q1–Q5). After each answer, runs <strong>Layer 1</strong> — checks 18 signal fields per trait and marks each as Filled, Partial, Empty, or Negative. Generates targeted probes for empty fields. Max 1 probe per trait. Candidate never knows what signals are being checked.</p>
           </div>
           <div class="method-col">
             <div class="method-prompt-badge b">Prompt B</div>
@@ -1089,6 +1124,38 @@ details[open] .method-chev{transform:rotate(180deg)}
     </div>
 
   </div>
+  <!-- Recruiter capacity analysis -->
+  <div class="rec-analysis">
+    <div class="rec-analysis-hd">
+      <i class="fa-duotone fa-users-gear" style="color:var(--tan);font-size:15px"></i>
+      <span>Recruiter Capacity Analysis — Manual vs. AI</span>
+      <span class="rec-analysis-sub">At current screening volume (est. 200 candidates/month)</span>
+    </div>
+    <div class="rec-analysis-body">
+      <div class="rec-col manual">
+        <div class="rec-col-head">Manual Screening</div>
+        <div class="rec-row"><span class="rec-lbl">Time per candidate</span><span class="rec-val">~55–65 min</span></div>
+        <div class="rec-row"><span class="rec-lbl">Breakdown</span><span class="rec-val rec-val-sm">15 min scheduling + 35 min interview + 10 min write-up</span></div>
+        <div class="rec-row"><span class="rec-lbl">Capacity per recruiter</span><span class="rec-val">~80 candidates/month</span></div>
+        <div class="rec-row"><span class="rec-lbl">Recruiters needed (200/mo)</span><span class="rec-val rec-val-hi">~2.5 recruiters</span></div>
+        <div class="rec-row"><span class="rec-lbl">Runs in parallel?</span><span class="rec-val rec-val-no">No — sequential queue</span></div>
+      </div>
+      <div class="rec-divider"><i class="fa-solid fa-arrow-right"></i></div>
+      <div class="rec-col ai">
+        <div class="rec-col-head">AI Assessment</div>
+        <div class="rec-row"><span class="rec-lbl">Time per candidate</span><span class="rec-val">~20–28 min <span style="font-size:.65rem;color:var(--char)">(candidate self-serves)</span></span></div>
+        <div class="rec-row"><span class="rec-lbl">Recruiter time per candidate</span><span class="rec-val">~5 min <span style="font-size:.65rem;color:var(--char)">(report review only)</span></span></div>
+        <div class="rec-row"><span class="rec-lbl">Capacity per recruiter</span><span class="rec-val">~960 reviews/month</span></div>
+        <div class="rec-row"><span class="rec-lbl">Recruiters needed (200/mo)</span><span class="rec-val rec-val-hi ai-hi">~0.2 recruiter equiv.</span></div>
+        <div class="rec-row"><span class="rec-lbl">Runs in parallel?</span><span class="rec-val rec-val-ok">Yes — all candidates simultaneously</span></div>
+      </div>
+    </div>
+    <div class="rec-analysis-note">
+      <i class="fa-solid fa-bolt" style="color:var(--tan)"></i>
+      At 500 candidates/month, manual screening requires ~6.5 recruiters dedicated to screening alone. The AI handles all 500 in parallel — recruiter involvement drops to report review.
+    </div>
+  </div>
+
   <div class="next-highlight eng">
     <i class="fa-duotone fa-people-arrows"></i>
     <div>
@@ -1164,9 +1231,6 @@ const SCRIPT = [
   { text:"Thank you for sharing that. You mentioned handling a lot at once — how did you decide what to focus on when everything was coming in?",
     wait:true, q:4,
     prefill:"I stayed calm, prioritized tasks based on impact and deadlines, communicated clearly with customers and my manager, and focused on accuracy over speed. All cases were resolved within SLA, and I received positive feedback for staying reliable under pressure." },
-  { text:"Got it. Thanks for that. Did anything come out of that experience that changed how you approach similar situations now?",
-    wait:true, q:4,
-    prefill:"With the upset customer, I focused on de-escalation — acknowledging their frustration, explaining what I could do immediately, and taking ownership. I documented each step carefully so I wouldn't lose track of other tasks. I resolved the critical issue, prevented further escalation, and still closed my remaining tickets on time." },
   { text:"Appreciate you walking me through that. Let's move on to one last topic.",
     wait:false, q:4 },
   { text:"Think of a time you were stuck on something and the path forward wasn't obvious. What did you end up doing?",
@@ -1183,20 +1247,19 @@ const SCRIPT = [
 const BTS = [
   { onQ:`<b>Initializing Assessment</b>\n\nTraits: Commitment, Self Awareness\nSignal fields: 6\n\nWaiting for candidate to confirm readiness…`, onA:null },
   { onQ:`<b>Q1 — Commitment + Self Awareness</b>\n\nListening for:\n<b>Commitment</b>\n├─ motivation_type\n├─ role_specificity\n└─ career_direction\n\n<b>Self Awareness</b>\n├─ self_knowledge\n├─ gap_acknowledgment\n└─ authenticity`, onA:`<b>Field Update — Q1 Core Answer</b>\n\n<b>Commitment:</b>\n├─ <span class="f">✅ motivation_type: FILLED</span>\n│  "wants to take people skills to tech"\n├─ <span class="f">✅ role_specificity: FILLED</span>\n│  "hospitality → support team"\n└─ <span class="f">✅ career_direction: FILLED</span>\n   "build a career in tech industry"\n\n<b>Self Awareness:</b>\n├─ <span class="p">🟡 self_knowledge: PARTIAL</span>\n│  Claims without examples ("people skills")\n├─ <span class="e">⬜ gap_acknowledgment: EMPTY</span>\n│  No limitation mentioned\n└─ <span class="p">🟡 authenticity: PARTIAL</span>\n   Coherent narrative, interview-polished\n\n<b class="probe">→ Probe triggered: gap_acknowledgment EMPTY</b>` },
-  { onQ:`<b>Probing: Self Awareness</b>\n\nTarget: gap_acknowledgment\nReason: no limitation acknowledged\nProbe 1 of 2`, onA:`<b>Re-checking Self Awareness:</b>\n\n├─ <span class="p">🟡 self_knowledge: PARTIAL</span>\n│  Still generic ("enjoy helping people")\n├─ <span class="e">⬜ gap_acknowledgment: EMPTY</span>\n│  Probe didn't surface a gap\n└─ <span class="p">🟡 authenticity: PARTIAL</span>\n   Regressed to vaguer language\n\n<b class="warn">→ Probe cap reached (2/2). Moving on.</b>` },
+  { onQ:`<b>Probing: Self Awareness</b>\n\nTarget: gap_acknowledgment\nReason: no limitation acknowledged\nProbe 1 of 1`, onA:`<b>Re-checking Self Awareness:</b>\n\n├─ <span class="p">🟡 self_knowledge: PARTIAL</span>\n│  Still generic ("enjoy helping people")\n├─ <span class="e">⬜ gap_acknowledgment: EMPTY</span>\n│  Probe didn't surface a gap\n└─ <span class="p">🟡 authenticity: PARTIAL</span>\n   Regressed to vaguer language\n\n<b class="warn">→ Probe cap reached (1/1). Moving on.</b>` },
   { onQ:`<b>Q1 Complete</b>\n\nCommitment:    <span class="f">✅ Score 4</span>\nSelf Awareness: <span class="p">🟡 Score 3</span>\n\nTransitioning → Q2: Learning Agility`, onA:null },
   { onQ:`<b>Q2 — Learning Agility</b>\n\nListening for:\n├─ learning_method\n├─ self_direction\n└─ validation`, onA:`<b>Field Update — Q2 Core Answer</b>\n\n<b>Learning Agility:</b>\n├─ <span class="f">✅ learning_method: FILLED</span>\n│  "stayed late 3 days, training videos"\n├─ <span class="f">✅ self_direction: FILLED</span>\n│  "self-initiated, made Quick Start guide"\n└─ <span class="e">⬜ validation: EMPTY</span>\n   No deliberate validation step described\n\n<b class="probe">→ Probe triggered: validation EMPTY</b>` },
-  { onQ:`<b>Probing: Learning Agility</b>\n\nTarget: validation\nReason: no readiness confirmation described\nProbe 1 of 2`, onA:`<b>Re-checking Learning Agility:</b>\n\n├─ <span class="f">✅ learning_method: FILLED</span>\n├─ <span class="f">✅ self_direction: FILLED</span>\n└─ <span class="f">✅ validation: FILLED</span>\n   "practiced during low-volume hours"\n\n<b class="ok">→ All fields filled. Moving on.</b>` },
+  { onQ:`<b>Probing: Learning Agility</b>\n\nTarget: validation\nReason: no readiness confirmation described\nProbe 1 of 1`, onA:`<b>Re-checking Learning Agility:</b>\n\n├─ <span class="f">✅ learning_method: FILLED</span>\n├─ <span class="f">✅ self_direction: FILLED</span>\n└─ <span class="f">✅ validation: FILLED</span>\n   "practiced during low-volume hours"\n\n<b class="ok">→ All fields filled. Moving on.</b>` },
   { onQ:`<b>Q2 Complete</b>\n\nLearning Agility: <span class="f">✅ Score 4</span>\n\nTransitioning → Q3: Intelligence`, onA:null },
   { onQ:`<b>Q3 — Intelligence</b>\n\nListening for:\n├─ hypothesis_formation\n├─ systematic_approach\n└─ root_cause_vs_symptom`, onA:`<b>Field Update — Q3 Core Answer</b>\n\n<b>Intelligence:</b>\n├─ <span class="f">✅ hypothesis_formation: FILLED</span>\n│  "account → known bugs → client-side"\n├─ <span class="f">✅ systematic_approach: FILLED</span>\n│  "sequential elimination, conditional logic"\n└─ <span class="e">⬜ root_cause_vs_symptom: EMPTY</span>\n   Process described, no specific cause found\n\n<b class="probe">→ Probe triggered: root_cause_vs_symptom EMPTY</b>` },
-  { onQ:`<b>Probing: Intelligence</b>\n\nTarget: root_cause_vs_symptom\nReason: described process, no root cause\nProbe 1 of 2`, onA:`<b>Re-checking Intelligence:</b>\n\n├─ <span class="f">✅ hypothesis_formation: FILLED</span>\n├─ <span class="f">✅ systematic_approach: FILLED</span>\n└─ <span class="f">✅ root_cause_vs_symptom: FILLED</span>\n   "pattern related to specific payment method"\n\n<b class="ok">→ All fields filled. Moving on.</b>` },
+  { onQ:`<b>Probing: Intelligence</b>\n\nTarget: root_cause_vs_symptom\nReason: described process, no root cause\nProbe 1 of 1`, onA:`<b>Re-checking Intelligence:</b>\n\n├─ <span class="f">✅ hypothesis_formation: FILLED</span>\n├─ <span class="f">✅ systematic_approach: FILLED</span>\n└─ <span class="f">✅ root_cause_vs_symptom: FILLED</span>\n   "pattern related to specific payment method"\n\n<b class="ok">→ All fields filled. Moving on.</b>` },
   { onQ:`<b>Q3 Complete</b>\n\nIntelligence: <span class="f">✅ Score 4</span>\n\nTransitioning → Q4: Conscientiousness + Self Awareness`, onA:null },
   { onQ:`<b>Q4 — Conscientiousness + Self Awareness</b>\n\nListening for:\n<b>Conscientiousness</b>\n├─ pressure_response\n├─ process_orientation\n└─ execution_follow_through\n\n<b>Self Awareness</b>\n├─ communication_timing\n├─ emotional_ownership\n└─ stakeholder_empathy`, onA:`<b>Field Update — Q4 Core Answer</b>\n\n<b>Conscientiousness:</b>\n├─ <span class="f">✅ pressure_response: FILLED</span>\n│  "empathy → explanation → escalation"\n├─ <span class="e">⬜ process_orientation: EMPTY</span>\n│  No systemic change described\n└─ <span class="f">✅ execution_follow_through: FILLED</span>\n   "resolved within SLA"\n\n<b>Self Awareness:</b>\n├─ <span class="f">✅ communication_timing: FILLED</span>\n├─ <span class="f">✅ emotional_ownership: FILLED</span>\n│  "I" language throughout\n└─ <span class="p">🟡 stakeholder_empathy: PARTIAL</span>\n   Empathy as technique, not perspective-taking\n\n<b class="probe">→ Probe triggered: process_orientation EMPTY</b>` },
-  { onQ:`<b>Probing: Conscientiousness</b>\n\nTarget: process_orientation\nReason: no systemic improvement described\nProbe 1 of 2`, onA:`<b>Re-checking Conscientiousness:</b>\n\n├─ <span class="f">✅ pressure_response: FILLED</span>\n├─ <span class="e">⬜ process_orientation: EMPTY</span>\n│  In-moment tactics, still no systemic change\n└─ <span class="f">✅ execution_follow_through: FILLED</span>\n\n<b class="probe">→ process_orientation still EMPTY. Probe 2 of 2.</b>` },
-  { onQ:`<b>Probing: Conscientiousness (final)</b>\n\nTarget: process_orientation\nProbe 2 of 2 — last attempt`, onA:`<b>Re-checking Conscientiousness:</b>\n\n├─ <span class="f">✅ pressure_response: FILLED</span>\n├─ <span class="p">🟡 process_orientation: PARTIAL</span>\n│  "documented each step" — tracking, not systemic\n└─ <span class="f">✅ execution_follow_through: FILLED</span>\n\n<b class="warn">→ Probe cap reached (2/2). Moving on.</b>` },
+  { onQ:`<b>Probing: Conscientiousness</b>\n\nTarget: process_orientation\nReason: no systemic improvement described\nProbe 1 of 1`, onA:`<b>Re-checking Conscientiousness:</b>\n\n├─ <span class="f">✅ pressure_response: FILLED</span>\n├─ <span class="e">⬜ process_orientation: EMPTY</span>\n│  In-moment tactics, no systemic change surfaced\n└─ <span class="f">✅ execution_follow_through: FILLED</span>\n\n<b class="warn">→ Probe cap reached (1/1). Moving on.</b>` },
   { onQ:`<b>Q4 Complete</b>\n\nConscientiousness: <span class="f">✅ Score 4</span>\nSelf Awareness:    <span class="f">✅ Score 4</span>\n\nTransitioning → Q5: Agency`, onA:null },
   { onQ:`<b>Q5 — Agency</b>\n\nListening for:\n├─ resourcefulness_depth\n├─ experimentation\n└─ self_sufficiency`, onA:`<b>Field Update — Q5 Core Answer</b>\n\n<b>Agency:</b>\n├─ <span class="f">✅ resourcefulness_depth: FILLED</span>\n│  "cross-referenced cases + docs"\n├─ <span class="e">⬜ experimentation: EMPTY</span>\n│  No active testing described\n└─ <span class="f">✅ self_sufficiency: FILLED</span>\n   "resolved without escalation, off-shift"\n\n<b class="probe">→ Probe triggered: experimentation EMPTY</b>` },
-  { onQ:`<b>Probing: Agency</b>\n\nTarget: experimentation\nReason: resolution described, no active testing\nProbe 1 of 2`, onA:`<b>Re-checking Agency:</b>\n\n├─ <span class="f">✅ resourcefulness_depth: FILLED</span>\n├─ <span class="f">✅ experimentation: FILLED</span>\n│  "tested using a test account"\n└─ <span class="f">✅ self_sufficiency: FILLED</span>\n\n<b class="ok">→ All fields filled. Score 5 — Simulation/Experimentation.</b>` },
+  { onQ:`<b>Probing: Agency</b>\n\nTarget: experimentation\nReason: resolution described, no active testing\nProbe 1 of 1`, onA:`<b>Re-checking Agency:</b>\n\n├─ <span class="f">✅ resourcefulness_depth: FILLED</span>\n├─ <span class="f">✅ experimentation: FILLED</span>\n│  "tested using a test account"\n└─ <span class="f">✅ self_sufficiency: FILLED</span>\n\n<b class="ok">→ All fields filled. Score 5 — Simulation/Experimentation.</b>` },
   { onQ:`<b>Interview Complete</b>\n\nGenerating assessment report…\n\n<b>Final Scores:</b>\n├─ Commitment:        <span class="f">4 / 5</span>\n├─ Self Aware. (Q1):  <span class="p">3 / 5</span>\n├─ Learning Agility:  <span class="f">4 / 5</span>\n├─ Intelligence:      <span class="f">4 / 5</span>\n├─ Conscientiousness: <span class="f">4 / 5</span>\n├─ Self Aware. (Q4):  <span class="f">4 / 5</span>\n└─ Agency:            <span class="f">5 / 5</span>\n\n<b>Overall: 4.0 / 5.0</b>\n<b class="ok">✅ Recommend for next stage</b>`, onA:null },
 ];
 
@@ -1215,7 +1278,7 @@ const SCORES = [
     evid:'Laid out a logical diagnostic workflow with conditional reasoning. Each check informed the next step. Identified a pattern related to a specific payment method and escalated with evidence. Approach is practiced-workflow rather than hypothesis-driven.',
     debug:`Signal Fields:\n├─ hypothesis_formation: ✅ FILLED (Score 4 quality)\n│  Mental priority order: account → known bugs → client-side\n├─ systematic_approach: ✅ FILLED (Score 4 quality)\n│  Sequential elimination with conditional logic\n└─ root_cause_vs_symptom: ✅ FILLED (Score 4 quality)\n   "identified a pattern related to a specific payment method"\n\nScore: 4 — All filled at score 4. Systematic Checklist.` },
   { label:'Q4 · Conscientiousness', title:'High Effort', score:4,
-    evid:'Handled complex high-value customer issue during peak period while managing multiple chats. Approach was deliberate: empathy first, constraint explanation, escalation with reassurance. All cases resolved within SLA. Gap in process improvement — no systemic change described.',
+    evid:'Handled complex high-value customer issue during peak period while managing multiple chats. Approach was deliberate: empathy first, constraint explanation, escalation with reassurance. All cases resolved within SLA. Gap in process improvement — process_orientation stayed empty after probing.',
     debug:`Signal Fields:\n├─ pressure_response: ✅ FILLED (Score 4 quality)\n│  Deliberate approach: empathy → explanation → escalation\n├─ process_orientation: 🟡 PARTIAL\n│  Documentation mentioned but as in-moment tracking, not systemic\n└─ execution_follow_through: ✅ FILLED (Score 4 quality)\n   All cases resolved within SLA\n\nScore: 4 — Two filled at 4, one partial. High Effort.` },
   { label:'Q4 · Self Awareness', title:'Professional Ownership', score:4,
     evid:"Consistent 'I' language, took ownership, communicated constraints proactively. Issued appeasement credit. Empathy toward customer demonstrated though framed somewhat instrumentally. No mention of downstream impact on other stakeholders.",
