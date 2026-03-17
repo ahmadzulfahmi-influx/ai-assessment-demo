@@ -1065,7 +1065,7 @@ details[open] .method-chev{transform:rotate(180deg)}
           </tr>
           <tr>
             <td class="nit-item">People App integration</td>
-            <td class="nit-desc">Auto-routes ≥4.5 candidates to recruiter calendar (Calendly)</td>
+            <td class="nit-desc">Assessment report + scores stored in PA. Score ≥4.5 triggers Calendly link automatically; &lt;4.5 routes to standard review queue</td>
           </tr>
           <tr>
             <td class="nit-item">Anthropic API access</td>
@@ -1134,25 +1134,31 @@ details[open] .method-chev{transform:rotate(180deg)}
     <div class="rec-analysis-body">
       <div class="rec-col manual">
         <div class="rec-col-head">Manual Screening</div>
+        <div class="rec-row"><span class="rec-lbl">Recruiter rate</span><span class="rec-val rec-val-sm">$532/mo · 176 hrs · <strong>$3.02/hr</strong></span></div>
         <div class="rec-row"><span class="rec-lbl">Time per candidate</span><span class="rec-val">~55–65 min</span></div>
         <div class="rec-row"><span class="rec-lbl">Breakdown</span><span class="rec-val rec-val-sm">15 min scheduling + 35 min interview + 10 min write-up</span></div>
+        <div class="rec-row"><span class="rec-lbl">Labor cost per candidate</span><span class="rec-val rec-val-hi">~$3.02 <span style="font-size:.65rem;font-weight:400;color:var(--char)">(60 min × $3.02/hr)</span></span></div>
         <div class="rec-row"><span class="rec-lbl">Capacity per recruiter</span><span class="rec-val">~80 candidates/month</span></div>
         <div class="rec-row"><span class="rec-lbl">Recruiters needed (200/mo)</span><span class="rec-val rec-val-hi">~2.5 recruiters</span></div>
+        <div class="rec-row"><span class="rec-lbl">Screening labor cost (200/mo)</span><span class="rec-val rec-val-hi">~$604/month</span></div>
         <div class="rec-row"><span class="rec-lbl">Runs in parallel?</span><span class="rec-val rec-val-no">No — sequential queue</span></div>
       </div>
       <div class="rec-divider"><i class="fa-solid fa-arrow-right"></i></div>
       <div class="rec-col ai">
         <div class="rec-col-head">AI Assessment</div>
-        <div class="rec-row"><span class="rec-lbl">Time per candidate</span><span class="rec-val">~20–28 min <span style="font-size:.65rem;color:var(--char)">(candidate self-serves)</span></span></div>
+        <div class="rec-row"><span class="rec-lbl">Recruiter rate</span><span class="rec-val rec-val-sm">Same — $3.02/hr (review only)</span></div>
+        <div class="rec-row"><span class="rec-lbl">Candidate time</span><span class="rec-val">~20–28 min <span style="font-size:.65rem;color:var(--char)">(self-serves)</span></span></div>
         <div class="rec-row"><span class="rec-lbl">Recruiter time per candidate</span><span class="rec-val">~5 min <span style="font-size:.65rem;color:var(--char)">(report review only)</span></span></div>
-        <div class="rec-row"><span class="rec-lbl">Capacity per recruiter</span><span class="rec-val">~960 reviews/month</span></div>
-        <div class="rec-row"><span class="rec-lbl">Recruiters needed (200/mo)</span><span class="rec-val rec-val-hi ai-hi">~0.2 recruiter equiv.</span></div>
+        <div class="rec-row"><span class="rec-lbl">Labor cost per candidate</span><span class="rec-val ai-hi">~$0.25 <span style="font-size:.65rem;font-weight:400;color:var(--char)">(5 min × $3.02/hr)</span></span></div>
+        <div class="rec-row"><span class="rec-lbl">API cost per candidate</span><span class="rec-val ai-hi">$0.07</span></div>
+        <div class="rec-row"><span class="rec-lbl">Total cost per candidate</span><span class="rec-val ai-hi"><strong>~$0.32</strong></span></div>
+        <div class="rec-row"><span class="rec-lbl">Screening cost (200/mo)</span><span class="rec-val ai-hi"><strong>~$64/month</strong></span></div>
         <div class="rec-row"><span class="rec-lbl">Runs in parallel?</span><span class="rec-val rec-val-ok">Yes — all candidates simultaneously</span></div>
       </div>
     </div>
     <div class="rec-analysis-note">
       <i class="fa-solid fa-bolt" style="color:var(--tan)"></i>
-      At 500 candidates/month, manual screening requires ~6.5 recruiters dedicated to screening alone. The AI handles all 500 in parallel — recruiter involvement drops to report review.
+      At 200 candidates/month: manual screening costs ~$604 in recruiter labor alone. AI brings that to ~$64 total — a <strong>~90% reduction</strong>. At 500/month, the gap widens further: ~$1,510 manual vs. ~$160 AI.
     </div>
   </div>
 
